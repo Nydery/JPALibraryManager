@@ -22,6 +22,16 @@ public class MediaExemplar {
     @ManyToOne
     private Publisher publisher;
 
+    /*
+    @ManyToMany
+    @JoinTable(
+            name = "MediaExemplar_Sales",
+            joinColumns = @JoinColumn(name = "mediaExemplar_id"),
+            inverseJoinColumns = @JoinColumn(name = "sales_id")
+    )
+    private Set<Sales> sales = new HashSet<>();
+    */
+
     // ---------------------
 
     public long getId() {
