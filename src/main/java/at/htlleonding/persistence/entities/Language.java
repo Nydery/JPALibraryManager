@@ -5,21 +5,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Topic {
+public class Language {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(length = 256)
     private String keyword;
 
-    @ManyToMany(mappedBy = "topics")
-    private Set<MediaItem> mediaItems = new HashSet<>();
+    @OneToMany(mappedBy = "language")
+    private Set<MediaExemplar> mediaExemplars = new HashSet<>();
 
     //-----------------
 
-    public Topic() {
+    public Language() {
     }
-    public Topic(String keyword) {
+    public Language(String keyword) {
         this.keyword = keyword;
     }
 
@@ -36,7 +36,7 @@ public class Topic {
         this.keyword = keyword;
     }
 
-    public Set<MediaItem> getMediaItems() {
-        return mediaItems;
+    public Set<MediaExemplar> getMediaExemplars() {
+        return mediaExemplars;
     }
 }

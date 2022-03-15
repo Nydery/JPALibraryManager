@@ -12,6 +12,9 @@ public class MediaExemplar {
     @ManyToOne
     private MediaItem mediaItem;
 
+    @ManyToOne
+    private Language language;
+
     public long getId() {
         return Id;
     }
@@ -26,5 +29,13 @@ public class MediaExemplar {
 
     public void setMediaItem(MediaItem mediaItem) {
         this.mediaItem = mediaItem;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 }
