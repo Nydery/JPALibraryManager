@@ -52,10 +52,6 @@ public class MediaItem {
         return topics;
     }
 
-    public void setTopics(Set<Topic> topics) {
-        this.topics = topics;
-    }
-
     public Set<Author> getAuthors() {
         return authors;
     }
