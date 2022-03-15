@@ -42,8 +42,4 @@ public class Genre {
     public Set<MediaItem> getMediaItems() {
         return mediaItems;
     }
-
-    public void setMediaItems(Set<MediaItem> mediaItems) {
-        this.mediaItems = mediaItems;
-    }
 }

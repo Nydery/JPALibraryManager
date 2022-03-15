@@ -36,10 +36,6 @@ public class Author {
         return id;
     }
 
-    /*public void setId(long id) {
-        this.id = id;
-    }*/
-
     public String getFirstName() {
         return firstName;
     }
@@ -58,9 +54,5 @@ public class Author {
 
     public Set<MediaItem> getMediaItems() {
         return mediaItems;
-    }
-
-    public void setMediaItems(Set<MediaItem> mediaItems) {
-        this.mediaItems = mediaItems;
     }
 }
