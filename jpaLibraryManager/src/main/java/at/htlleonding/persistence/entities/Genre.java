@@ -1,6 +1,7 @@
 package at.htlleonding.persistence.entities;
 
 import javax.persistence.*;
+import javax.print.attribute.standard.Media;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ public class Genre {
     private String keyword;
 
     @OneToMany(mappedBy = "genre")
-    private Set<Book> books = new HashSet<>();
+    private Set<MediaItem> mediaItems = new HashSet<>();
 
     //-----------------
 
@@ -25,9 +26,11 @@ public class Genre {
 
     //-----------------
 
+
     public long getId() {
         return id;
     }
+
     /*public void setId(long id) {
         this.id = id;
     }*/
@@ -35,11 +38,16 @@ public class Genre {
     public String getKeyword() {
         return keyword;
     }
+
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
 
-    public Set<Book> getBooks() {
-        return books;
+    public Set<MediaItem> getMediaItems() {
+        return mediaItems;
+    }
+
+    public void setMediaItems(Set<MediaItem> mediaItems) {
+        this.mediaItems = mediaItems;
     }
 }

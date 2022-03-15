@@ -22,7 +22,14 @@ public class MediaItem {
     )
     private Set<Topic> topics = new HashSet<>();
 
-    @OneToMany(mappedBy = "mediaItem")
-    private Set<MediaExemplar> mediaExemplars = new HashSet<>();
+    @ManyToMany(mappedBy = "mediaItems")
+    @JoinTable(
+            name = "MediaItem_Author",
+            joinColumns = @JoinColumn(name = "mediaItem_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
+    )
+    private Set<Author> authors = new HashSet<>();
 
+    @ManyToOne
+    private Genre genre;
 }
