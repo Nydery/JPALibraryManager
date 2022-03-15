@@ -19,8 +19,6 @@ import javax.transaction.Transactional;
 // Marking a CDI bean method @Transactional will do that for you and make that method a transaction boundary.
 // We recommend doing so at your application entry point boundaries like your REST endpoint controllers.
 
-//TODO 1: Add entity classes to persistence-package
-
 /*
  LibraryRepository: Implements methods to work with entities.
  Responsibility: Performs actions on entities, e.g. to persist, create associations and retrieve by queries.
@@ -32,15 +30,15 @@ public class LibraryRepository {
 
     @Inject
     EntityManager entityManager;
-/*
+
     //TODO 2: Add add-Methods for the various entities
     //Note: when adding associations, make sure to update !!!*ALL*!!! PARTICIPANTS of the association!!! (ask me how I know... ;) )
     @Transactional
-    public void add(Book b){
-        if(b == null)
-            throw new IllegalArgumentException("b");
+    public void add(Genre g){
+        if(g == null)
+            throw new IllegalArgumentException("g");
 
-        entityManager.persist(b);
+        entityManager.persist(g);
     }
     @Transactional
     public void add(Author a){
@@ -49,13 +47,7 @@ public class LibraryRepository {
 
         entityManager.persist(a);
     }
-    @Transactional
-    public void add(Genre g) {
-        if(g == null)
-            throw new IllegalArgumentException("g");
 
-        entityManager.persist(g);
-    }
     @Transactional
     public void add(Topic t) {
         if(t == null)
@@ -64,9 +56,33 @@ public class LibraryRepository {
         entityManager.persist(t);
     }
 
-    //----------------------------
+    @Transactional
+    public void add(Language l) {
+        if(l == null)
+            throw new IllegalArgumentException("l");
 
-    //TODO 2: Add add(Book b, Author a, boolean isPrimaryAuthor).
+        entityManager.persist(l);
+    }
+
+    @Transactional
+    public void add(MediaItem mi) {
+        if(mi == null)
+            throw new IllegalArgumentException("mi");
+
+        entityManager.persist(mi);
+    }
+
+    @Transactional
+    public void add(Publisher p) {
+        if(p == null)
+            throw new IllegalArgumentException("p");
+
+        entityManager.persist(p);
+    }
+
+    //----------------------------
+    //Special adds
+
     @Transactional
     public void add(Book b, Author a, boolean isPrimaryAuthor) {
         if(b == null)
