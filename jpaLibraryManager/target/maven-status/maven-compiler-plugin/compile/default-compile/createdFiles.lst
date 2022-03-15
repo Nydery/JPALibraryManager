@@ -1,0 +1,9 @@
+at\htlleonding\persistence\entities\Book.class
+at\htlleonding\persistence\entities\BookAuthor.class
+at\htlleonding\persistence\LibraryRepository.class
+at\htlleonding\logic\LibraryLogic.class
+at\htlleonding\persistence\entities\Genre.class
+at\htlleonding\QuarkusCmdlineApp.class
+at\htlleonding\persistence\entities\BookAuthorKey.class
+at\htlleonding\persistence\entities\Author.class
+at\htlleonding\persistence\entities\Topic.class
