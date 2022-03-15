@@ -2,16 +2,12 @@ package at.htlleonding.logic;
 
 import at.htlleonding.persistence.*;
 import at.htlleonding.persistence.entities.Author;
-import at.htlleonding.persistence.entities.Book;
 import at.htlleonding.persistence.entities.Genre;
 import at.htlleonding.persistence.entities.Topic;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
