@@ -9,7 +9,7 @@ public class MediaItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column
     private String title;
@@ -22,4 +22,14 @@ public class MediaItem {
     )
     private Set<Topic> topics = new HashSet<>();
 
+    @ManyToMany(mappedBy = "mediaItems")
+    @JoinTable(
+            name = "MediaItem_Author",
+            joinColumns = @JoinColumn(name = "mediaItem_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
+    )
+    private Set<Author> authors = new HashSet<>();
+
+    @ManyToOne
+    private Genre genre;
 }

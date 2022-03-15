@@ -17,37 +17,33 @@ public class Author {
     @Column(length = 50)
     private String lastName;
 
-    private LocalDate dateBirth;
-    private LocalDate dateDeath;
+    @ManyToMany(mappedBy = "authors")
+    private Set<MediaItem> mediaItems = new HashSet<>();
 
-    @OneToMany(mappedBy = "author")
-    private Set<BookAuthor> books = new HashSet();
-
+    //-----------------
 
     public Author() {
     }
-    public Author(String firstName, String lastName, String dateBirth, String dateDeath) {
+
+    public Author(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        if(!dateBirth.equals(""))
-            this.dateBirth = LocalDate.parse(dateBirth, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        if(!dateDeath.equals(""))
-            this.dateDeath = LocalDate.parse(dateDeath, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
-    public Author(String firstName, String lastName, LocalDate dateBirth, LocalDate dateDeath) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateBirth = dateBirth;
-        this.dateDeath = dateDeath;
-    }
+    //-----------------
+
 
     public long getId() {
         return id;
     }
 
+    /*public void setId(long id) {
+        this.id = id;
+    }*/
+
     public String getFirstName() {
         return firstName;
     }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -55,30 +51,16 @@ public class Author {
     public String getLastName() {
         return lastName;
     }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public LocalDate getDateBirth() {
-        return dateBirth;
-    }
-    public void setDateBirth(LocalDate dateBirth) {
-        this.dateBirth = dateBirth;
+    public Set<MediaItem> getMediaItems() {
+        return mediaItems;
     }
 
-    public LocalDate getDateDeath() {
-        return dateDeath;
-    }
-    public void setDateDeath(LocalDate dateDeath) {
-        this.dateDeath = dateDeath;
-    }
-
-    public Set<BookAuthor> getBooks() {
-        return books;
-    }
-
-    @Transient
-    public String getFullName(){
-        return String.format("%s %s", getFirstName(), getLastName());
+    public void setMediaItems(Set<MediaItem> mediaItems) {
+        this.mediaItems = mediaItems;
     }
 }
