@@ -82,7 +82,7 @@ public class LibraryRepository {
 
     //----------------------------
     //Special adds
-
+    /*
     @Transactional
     public void add(Book b, Author a, boolean isPrimaryAuthor) {
         if(b == null)
@@ -123,6 +123,5 @@ public class LibraryRepository {
 
         b.setGenre(g);
     }
-
  */
 }
