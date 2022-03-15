@@ -13,7 +13,7 @@ public class Topic {
     private String keyword;
 
     @ManyToMany(mappedBy = "topics")
-    private Set<Book> books = new HashSet<>();
+    private Set<MediaItem> mediaItems = new HashSet<>();
 
     //-----------------
 
@@ -39,7 +39,7 @@ public class Topic {
         this.keyword = keyword;
     }
 
-    public Set<Book> getBooks() {
-        return books;
+    public Set<MediaItem> getMediaItmes() {
+        return mediaItems;
     }
 }
