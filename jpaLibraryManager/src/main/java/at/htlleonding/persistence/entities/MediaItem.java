@@ -22,4 +22,7 @@ public class MediaItem {
     )
     private Set<Topic> topics = new HashSet<>();
 
+    @OneToMany(mappedBy = "mediaItem")
+    private Set<MediaExemplar> mediaExemplars = new HashSet<>();
+
 }
