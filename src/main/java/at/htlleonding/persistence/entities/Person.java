@@ -3,7 +3,7 @@ package at.htlleonding.persistence.entities;
 import javax.persistence.*;
 
 @MappedSuperclass
-public class Person {
+public abstract class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
