@@ -111,6 +111,86 @@ public class LibraryRepository {
         entityManager.persist(mt);
     }
 
+    @Transactional
+    public void remove(Genre g){
+        if(g == null)
+            throw new IllegalArgumentException("g");
+
+        entityManager.remove(g);
+    }
+
+    @Transactional
+    public void remove(Author a){
+        if(a == null)
+            throw new IllegalArgumentException("a");
+
+        entityManager.remove(a);
+    }
+
+    @Transactional
+    public void remove(Topic t) {
+        if(t == null)
+            throw new IllegalArgumentException("t");
+
+        entityManager.remove(t);
+    }
+
+    @Transactional
+    public void remove(Language l) {
+        if(l == null)
+            throw new IllegalArgumentException("l");
+
+        entityManager.remove(l);
+    }
+
+    @Transactional
+    public void remove(MediaItem mi) {
+        if(mi == null)
+            throw new IllegalArgumentException("mi");
+
+        entityManager.remove(mi);
+    }
+
+    @Transactional
+    public void remove(Publisher p) {
+        if(p == null)
+            throw new IllegalArgumentException("p");
+
+        entityManager.remove(p);
+    }
+
+    @Transactional
+    public void remove(Customer c) {
+        if (c == null)
+            throw new IllegalArgumentException("c");
+
+        entityManager.remove(c);
+    }
+
+    @Transactional
+    public void remove(Employee e) {
+        if(e == null)
+            throw new IllegalArgumentException("e");
+
+        entityManager.remove(e);
+    }
+
+    @Transactional
+    public void remove(MediaExemplar me) {
+        if (me == null)
+            throw new IllegalArgumentException("me");
+
+        entityManager.remove(me);
+    }
+
+    @Transactional
+    public void remove(MediaType mt) {
+        if(mt == null)
+            throw new IllegalArgumentException("mt");
+
+        entityManager.remove(mt);
+    }
+
     //----------------------------
     //Special adds
     /*
