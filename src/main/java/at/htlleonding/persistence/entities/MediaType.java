@@ -1,5 +1,7 @@
 package at.htlleonding.persistence.entities;
 
+import at.htlleonding.persistence.enums.MediaTypes;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +13,7 @@ public class MediaType {
     @Enumerated(EnumType.STRING)
     private MediaTypes type;
 
+    @Column(nullable = false)
     private double price;
 
     // ---------------

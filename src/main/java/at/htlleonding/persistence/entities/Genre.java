@@ -10,7 +10,7 @@ public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(length = 256)
+    @Column(length = 256, nullable = false)
     private String keyword;
 
     @OneToMany(mappedBy = "genre")

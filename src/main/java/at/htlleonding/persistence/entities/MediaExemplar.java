@@ -5,11 +5,10 @@ import java.time.LocalDate;
 
 @Entity
 public class MediaExemplar {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
-
+    
     private LocalDate buyDate;
     private boolean forSale = false;
 
