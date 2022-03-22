@@ -7,15 +7,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Author {
+public class Author extends Person{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(length = 50)
-    private String firstName;
-    @Column(length = 50)
-    private String lastName;
+    @Column(nullable = true)
+    private String name;
 
     @ManyToMany(mappedBy = "authors")
     private Set<MediaItem> mediaItems = new HashSet<>();
@@ -25,10 +23,11 @@ public class Author {
     public Author() {
     }
 
-    public Author(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Author(String firstName, String lastName, String name) {
+        super(firstName, lastName);
+        this.name = name;
     }
+
     //-----------------
 
 
@@ -36,20 +35,12 @@ public class Author {
         return id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Set<MediaItem> getMediaItems() {
