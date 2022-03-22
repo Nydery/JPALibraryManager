@@ -134,6 +134,35 @@ public class LibraryDataModelTest {
         Assertions.assertNotNull(exempl);
         Assertions.assertEquals(exemplar1.getId(), exempl.getId());
 
-        System.out.println(exemplar1.getId());
     }
+
+
+    @Test
+    @TestTransaction
+    public void deleteMediaExemplar_From1948MediaItem_ExpectedNoResult(){
+
+        createLanguages();
+        createPublisher();
+
+        exemplar1 = new MediaExemplar();
+        exemplar1.setMediaItem(mediaItem);
+        exemplar1.setBuyDate(LocalDate.now());
+        exemplar1.setPublisher(publisher);
+        exemplar1.setLanguage(language1);
+
+        target.persist(exemplar1);
+        target.flush();
+        var var_id = exemplar1.getId();
+
+       target.clear();
+
+        var exempl = target.createQuery("select me from MediaExemplar me where me.Id = :var_id", MediaExemplar.class)
+                .setParameter("var_id", var_id).getSingleResult();
+
+        target.remove(exempl);
+
+
+        Assertions.assertFalse(target.contains(exempl));
+    }
+
 }
