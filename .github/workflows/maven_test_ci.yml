@@ -20,11 +20,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Clean package
-        run: mvn clean package
-      
-      - name: Build maven project
-        run: mvn compile quarkus:dev
-        
-      - name: Run tests
-        run: mvn test
+      - name: Clean compile and run tests
+        run: mvn clean compile quarkus:dev
