@@ -1,4 +1,4 @@
-package at.htlleonding.persistence.entities;
+package at.htlleonding.persistence.enums;
 
 public enum MediaTypes {
     Book,
