@@ -27,12 +27,10 @@ import javax.transaction.Transactional;
 
 @ApplicationScoped
 public class LibraryRepository {
-
     @Inject
     EntityManager entityManager;
 
     //TODO 2: Add add-Methods for the various entities
-    //Note: when adding associations, make sure to update !!!*ALL*!!! PARTICIPANTS of the association!!! (ask me how I know... ;) )
     @Transactional
     public void add(Genre g){
         if(g == null)
@@ -40,6 +38,7 @@ public class LibraryRepository {
 
         entityManager.persist(g);
     }
+
     @Transactional
     public void add(Author a){
         if(a == null)
@@ -78,6 +77,38 @@ public class LibraryRepository {
             throw new IllegalArgumentException("p");
 
         entityManager.persist(p);
+    }
+
+    @Transactional
+    public void add(Customer c) {
+        if (c == null)
+            throw new IllegalArgumentException("c");
+
+        entityManager.persist(c);
+    }
+
+    @Transactional
+    public void add(Employee e) {
+        if(e == null)
+            throw new IllegalArgumentException("e");
+
+        entityManager.persist(e);
+    }
+
+    @Transactional
+    public void add(MediaExemplar me) {
+        if (me == null)
+            throw new IllegalArgumentException("me");
+
+        entityManager.persist(me);
+    }
+
+    @Transactional
+    public void add(MediaType mt) {
+        if(mt == null)
+            throw new IllegalArgumentException("mt");
+
+        entityManager.persist(mt);
     }
 
     //----------------------------
