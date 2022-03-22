@@ -1,3 +1,7 @@
+# Disclaimer
+Aufgrund unseres Datenmodells verzichten wir bei den Entitäten zum Thema Media auf Vererbung. (Wie am 22.03.2022 mit Prof. Nöbauer besprochen)
+
+
 # quarkus-hibernate-cmdline Project
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
