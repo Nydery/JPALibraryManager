@@ -34,11 +34,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: List all running docker containers
-        run: mssql=$( docker ps -q )
-
       - name: Create needed database on mssql container
-        run: docker exec -d "$mssql" "create database ${{ env.DB_NAME }}"
+        run: docker exec -d $( docker ps -q ) "create database ${{ env.DB_NAME }}"
 
       - name: Clean compile and run tests
         run: sudo mvn clean package
