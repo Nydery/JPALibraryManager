@@ -32,163 +32,24 @@ public class LibraryRepository {
 
     //TODO 2: Add add-Methods for the various entities
     @Transactional
-    public void add(Genre g){
-        if(g == null)
-            throw new IllegalArgumentException("g");
+    public void add(IEntity entity) {
+        if (entity == null)
+            throw new IllegalArgumentException("entity");
 
-        entityManager.persist(g);
+        entityManager.persist(entity);
     }
 
     @Transactional
-    public void add(Author a){
-        if(a == null)
-            throw new IllegalArgumentException("a");
+    public void remove (IEntity entity) {
+        if (entity == null)
+            throw new IllegalArgumentException("entity");
 
-        entityManager.persist(a);
+        entityManager.remove(entity);
     }
 
     @Transactional
-    public void add(Topic t) {
-        if(t == null)
-            throw new IllegalArgumentException("t");
-
-        entityManager.persist(t);
-    }
-
-    @Transactional
-    public void add(Language l) {
-        if(l == null)
-            throw new IllegalArgumentException("l");
-
-        entityManager.persist(l);
-    }
-
-    @Transactional
-    public void add(MediaItem mi) {
-        if(mi == null)
-            throw new IllegalArgumentException("mi");
-
-        entityManager.persist(mi);
-    }
-
-    @Transactional
-    public void add(Publisher p) {
-        if(p == null)
-            throw new IllegalArgumentException("p");
-
-        entityManager.persist(p);
-    }
-
-    @Transactional
-    public void add(Customer c) {
-        if (c == null)
-            throw new IllegalArgumentException("c");
-
-        entityManager.persist(c);
-    }
-
-    @Transactional
-    public void add(Employee e) {
-        if(e == null)
-            throw new IllegalArgumentException("e");
-
-        entityManager.persist(e);
-    }
-
-    @Transactional
-    public void add(MediaExemplar me) {
-        if (me == null)
-            throw new IllegalArgumentException("me");
-
-        entityManager.persist(me);
-    }
-
-    @Transactional
-    public void add(MediaType mt) {
-        if(mt == null)
-            throw new IllegalArgumentException("mt");
-
-        entityManager.persist(mt);
-    }
-
-    @Transactional
-    public void remove(Genre g){
-        if(g == null)
-            throw new IllegalArgumentException("g");
-
-        entityManager.remove(g);
-    }
-
-    @Transactional
-    public void remove(Author a){
-        if(a == null)
-            throw new IllegalArgumentException("a");
-
-        entityManager.remove(a);
-    }
-
-    @Transactional
-    public void remove(Topic t) {
-        if(t == null)
-            throw new IllegalArgumentException("t");
-
-        entityManager.remove(t);
-    }
-
-    @Transactional
-    public void remove(Language l) {
-        if(l == null)
-            throw new IllegalArgumentException("l");
-
-        entityManager.remove(l);
-    }
-
-    @Transactional
-    public void remove(MediaItem mi) {
-        if(mi == null)
-            throw new IllegalArgumentException("mi");
-
-        entityManager.remove(mi);
-    }
-
-    @Transactional
-    public void remove(Publisher p) {
-        if(p == null)
-            throw new IllegalArgumentException("p");
-
-        entityManager.remove(p);
-    }
-
-    @Transactional
-    public void remove(Customer c) {
-        if (c == null)
-            throw new IllegalArgumentException("c");
-
-        entityManager.remove(c);
-    }
-
-    @Transactional
-    public void remove(Employee e) {
-        if(e == null)
-            throw new IllegalArgumentException("e");
-
-        entityManager.remove(e);
-    }
-
-    @Transactional
-    public void remove(MediaExemplar me) {
-        if (me == null)
-            throw new IllegalArgumentException("me");
-
-        entityManager.remove(me);
-    }
-
-    @Transactional
-    public void remove(MediaType mt) {
-        if(mt == null)
-            throw new IllegalArgumentException("mt");
-
-        entityManager.remove(mt);
+    public void saveChanges() {
+        entityManager.flush();
     }
 
     //----------------------------
