@@ -11,6 +11,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  DB_NAME: jpaLibraryManager
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build-and-run:
@@ -31,8 +34,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Create needed database on mssql container
+        run: docker exec -d mssql "create database ${{ env.DB_NAME }}"
+
       - name: Clean compile and run tests
-        run: sudo mvn clean compile quarkus:dev -l output.txt
-        
-      - name: Print compile output
-        run: cat output.txt
+        run: sudo mvn clean package
