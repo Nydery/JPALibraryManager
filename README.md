@@ -1,3 +1,5 @@
+[![CI Integration tests](https://github.com/Nydery/JPALibraryManager/actions/workflows/maven_test_ci.yml/badge.svg)](https://github.com/Nydery/JPALibraryManager/actions/workflows/maven_test_ci.yml)
+
 # 🔴Disclaimer
 Aufgrund unseres Datenmodells verzichten wir bei den Entitäten zum Thema Media auf Vererbung. (Wie am 22.03.2022 mit Prof. Nöbauer besprochen)
 
