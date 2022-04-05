@@ -156,7 +156,7 @@ public class LibraryDataModelTest {
 
        target.clear();
 
-        var exempl = target.createQuery("select me from MediaExemplar me where me.Id = :var_id", MediaExemplar.class)
+        var exempl = target.createQuery("select me from MediaExemplar me where me.id = :var_id", MediaExemplar.class)
                 .setParameter("var_id", var_id).getSingleResult();
 
         target.remove(exempl);
