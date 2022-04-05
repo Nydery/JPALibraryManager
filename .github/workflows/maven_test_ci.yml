@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: List all running docker containers
-        run: docker ps
+        run: docker ps -q
 
       - name: Create needed database on mssql container
         run: docker exec -d mssql "create database ${{ env.DB_NAME }}"
