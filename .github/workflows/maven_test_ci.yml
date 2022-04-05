@@ -14,7 +14,6 @@ on:
 env:
   DB_USER: postgres
   DB_NAME: jpalibrarymanager
-  DB_PORT_MAP: 5432:5432
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -32,7 +31,7 @@ jobs:
           POSTGRES_PASS: ${{ secrets.CI_POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ env.DB_NAME }}
         ports:
-          - ${{ env.DB_PORT }}
+          - 5432:5432
           
     steps:
       - uses: actions/checkout@v2
