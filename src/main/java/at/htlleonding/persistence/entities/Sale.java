@@ -5,15 +5,14 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-//@Entity       //Comment in once it is needed
-public class Sale {
-/*
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+@Entity
+public class Sale extends IdentityEntity{
 
     @Column
     private LocalDate datetime;
+
+    @ManyToOne
+    private Receipt receipt;
 
     @ManyToMany(mappedBy = "sales")
     private Set<MediaExemplar> mediaExemplars = new HashSet<>();
@@ -28,11 +27,6 @@ public class Sale {
 
     //-----------------
 
-
-    public long getId() {
-        return id;
-    }
-
     public LocalDate getDatetime() {
         return datetime;
     }
@@ -44,5 +38,4 @@ public class Sale {
     public Set<MediaExemplar> getMediaExemplars() {
         return mediaExemplars;
     }
- */
 }

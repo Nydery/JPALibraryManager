@@ -5,11 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class MediaItem {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class MediaItem extends IdentityEntity{
 
     @Column(nullable = false)
     private String title;
@@ -34,11 +30,6 @@ public class MediaItem {
     private Genre genre;
 
     // ----------------
-
-
-    public long getId() {
-        return id;
-    }
 
     public String getTitle() {
         return title;

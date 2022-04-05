@@ -5,10 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Publisher {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class Publisher extends IdentityEntity {
 
     @Column(nullable = false)
     private String name;
@@ -17,10 +14,6 @@ public class Publisher {
     private Set<MediaExemplar> mediaExemplars = new HashSet<>();
 
     // ---------------------
-
-    public long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;

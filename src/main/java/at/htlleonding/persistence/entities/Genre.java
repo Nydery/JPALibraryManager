@@ -6,10 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Genre {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class Genre extends IdentityEntity {
+
     @Column(length = 256, nullable = false)
     private String keyword;
 
@@ -25,11 +23,6 @@ public class Genre {
     }
 
     //-----------------
-
-
-    public long getId() {
-        return id;
-    }
 
     public String getKeyword() {
         return keyword;

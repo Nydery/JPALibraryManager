@@ -5,10 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Topic {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class Topic extends IdentityEntity {
+
     @Column(length = 256, nullable = false)
     private String keyword;
 
@@ -24,10 +22,6 @@ public class Topic {
     }
 
     //-----------------
-
-    public long getId() {
-        return id;
-    }
 
     public String getKeyword() {
         return keyword;

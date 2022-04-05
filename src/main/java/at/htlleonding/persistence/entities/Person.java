@@ -3,10 +3,7 @@ package at.htlleonding.persistence.entities;
 import javax.persistence.*;
 
 @MappedSuperclass
-public abstract class Person {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public abstract class Person extends IdentityEntity {
 
     @Column(nullable = false)
     private String firstName;
@@ -27,9 +24,6 @@ public abstract class Person {
 
     //--------------------------------
 
-    public long getId() {
-        return id;
-    }
 
     public String getFirstName() {
         return firstName;

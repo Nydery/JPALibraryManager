@@ -8,10 +8,6 @@ import java.util.Set;
 
 @Entity
 public class Author extends Person{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
     @Column(nullable = true)
     private String name;
 
@@ -29,11 +25,6 @@ public class Author extends Person{
     }
 
     //-----------------
-
-
-    public long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;

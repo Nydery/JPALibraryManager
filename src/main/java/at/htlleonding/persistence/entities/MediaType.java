@@ -5,10 +5,7 @@ import at.htlleonding.persistence.enums.MediaTypes;
 import javax.persistence.*;
 
 @Entity
-public class MediaType {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class MediaType extends IdentityEntity{
 
     @Enumerated(EnumType.STRING)
     private MediaTypes type;
@@ -17,10 +14,6 @@ public class MediaType {
     private double price;
 
     // ---------------
-
-    public long getId() {
-        return id;
-    }
 
     public MediaTypes getType() {
         return type;

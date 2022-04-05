@@ -2,13 +2,12 @@ package at.htlleonding.persistence.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-public class MediaExemplar {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
-    
+public class MediaExemplar extends IdentityEntity {
+
     private LocalDate buyDate;
     private boolean forSale = false;
 
@@ -21,21 +20,15 @@ public class MediaExemplar {
     @ManyToOne
     private Publisher publisher;
 
-    /*
     @ManyToMany
     @JoinTable(
             name = "MediaExemplar_Sales",
             joinColumns = @JoinColumn(name = "mediaExemplar_id"),
             inverseJoinColumns = @JoinColumn(name = "sales_id")
     )
-    private Set<Sales> sales = new HashSet<>();
-    */
+    private Set<Sale> sales = new HashSet<>();
 
     // ---------------------
-
-    public long getId() {
-        return Id;
-    }
 
     public MediaItem getMediaItem() {
         return mediaItem;
@@ -75,5 +68,9 @@ public class MediaExemplar {
 
     public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
+    }
+
+    public Set<Sale> getSales() {
+        return sales;
     }
 }
