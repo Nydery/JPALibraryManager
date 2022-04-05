@@ -11,6 +11,11 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  DB_USER: postgres
+  DB_NAME: jpalibrarymanager
+  DB_PORT: 5432
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build-and-run:
@@ -20,16 +25,17 @@ jobs:
       # Label used to access the service container
       mssql:
         # Docker Hub image
-        image: mcr.microsoft.com/mssql/server
+        image: postgres:alpine
         # Provide the password for postgres
         env:
-          ACCEPT_EULA: Y
-          SA_PASSWORD: ${{ secrets.CI_MSSQL_SA_PASSWORD }}
+          POSTGRES_USER: ${{ env.DB_USER }}
+          POSTGRES_PASS: ${{ secrets.CI_POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.DB_NAME }}
         ports:
-          - 14330:1433
+          - ${{ env.DB_PORT }}:5432
           
     steps:
       - uses: actions/checkout@v2
 
       - name: Clean compile and run tests
-        run: sudo mvn clean compile quarkus:dev
+        run: sudo mvn clean package
