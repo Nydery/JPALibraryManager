@@ -12,7 +12,9 @@ on:
   workflow_dispatch:
 
 env:
+  DB_USER: dbi
   DB_NAME: jpaLibraryManager
+  DB_PORT: 5432
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -23,19 +25,17 @@ jobs:
       # Label used to access the service container
       mssql:
         # Docker Hub image
-        image: mcr.microsoft.com/mssql/server
+        image: postgres:alpine
         # Provide the password for postgres
         env:
-          ACCEPT_EULA: Y
-          SA_PASSWORD: ${{ secrets.CI_MSSQL_SA_PASSWORD }}
+          POSTGRES_USER: ${{ env.DB_USER }}
+          POSTGRES_PASS: ${{ secrets.CI_POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.DB_NAME }}
         ports:
-          - 14330:1433
+          - ${{ env.DB_PORT }}:5432
           
     steps:
       - uses: actions/checkout@v2
-
-      - name: Create needed database on mssql container
-        run: docker exec -d $( docker ps -q ) "create database ${{ env.DB_NAME }}"
 
       - name: Clean compile and run tests
         run: sudo mvn clean package
