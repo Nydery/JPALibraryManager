@@ -16,9 +16,20 @@ jobs:
   build-and-run:
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    services:
+      # Label used to access the service container
+      mssql:
+        # Docker Hub image
+        image: mcr.microsoft.com/mssql/server
+        # Provide the password for postgres
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: ${{ secrets.CI_MSSQL_SA_PASSWORD }}
+        ports:
+          - 14330:1433
+          
     steps:
       - uses: actions/checkout@v2
 
       - name: Clean compile and run tests
-        run: mvn clean compile quarkus:dev
+        run: sudo mvn clean compile quarkus:dev
