@@ -32,4 +32,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Clean compile and run tests
-        run: sudo mvn clean compile quarkus:dev
+        run: sudo mvn clean compile quarkus:dev -l output.txt
+        
+      - name: Print compile output
+        run: cat output.txt
