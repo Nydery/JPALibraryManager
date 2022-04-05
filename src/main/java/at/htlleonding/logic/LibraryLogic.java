@@ -15,5 +15,11 @@ public class LibraryLogic {
     @Inject
     LibraryRepository repository;
 
+    public void add(IEntity entity) {
+        repository.add(entity);
+    }
 
+    public void remove(IEntity entity) {
+        repository.remove(entity);
+    }
 }
