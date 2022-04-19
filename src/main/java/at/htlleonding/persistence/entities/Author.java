@@ -12,7 +12,7 @@ public class Author extends Person{
     private String name;
 
     @ManyToMany(mappedBy = "authors")
-    private Set<MediaItem> mediaItems = new HashSet<>();
+    private final Set<MediaItem> mediaItems = new HashSet<>();
 
     //-----------------
 

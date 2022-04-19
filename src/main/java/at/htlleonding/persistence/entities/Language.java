@@ -6,12 +6,11 @@ import java.util.Set;
 
 @Entity
 public class Language extends IdentityEntity{
-
     @Column(length = 256, nullable = false)
     private String keyword;
 
     @OneToMany(mappedBy = "language")
-    private Set<MediaExemplar> mediaExemplars = new HashSet<>();
+    private final Set<MediaExemplar> mediaExemplars = new HashSet<>();
 
     //-----------------
 

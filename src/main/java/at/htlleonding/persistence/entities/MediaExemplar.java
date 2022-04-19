@@ -7,7 +7,6 @@ import java.util.Set;
 
 @Entity
 public class MediaExemplar extends IdentityEntity {
-
     private LocalDate buyDate;
     private boolean forSale = false;
 

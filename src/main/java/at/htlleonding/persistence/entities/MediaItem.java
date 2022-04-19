@@ -6,7 +6,6 @@ import java.util.Set;
 
 @Entity
 public class MediaItem extends IdentityEntity{
-
     @Column(nullable = false)
     private String title;
 

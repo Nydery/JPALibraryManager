@@ -6,12 +6,11 @@ import java.util.Set;
 
 @Entity
 public class Topic extends IdentityEntity {
-
     @Column(length = 256, nullable = false)
     private String keyword;
 
     @ManyToMany(mappedBy = "topics")
-    private Set<MediaItem> mediaItems = new HashSet<>();
+    private final Set<MediaItem> mediaItems = new HashSet<>();
 
     //-----------------
 

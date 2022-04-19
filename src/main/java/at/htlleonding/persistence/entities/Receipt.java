@@ -6,7 +6,6 @@ import java.util.Set;
 
 @Entity
 public class Receipt extends IdentityEntity{
-
     @ManyToOne
     private Customer customer;
 
@@ -14,7 +13,7 @@ public class Receipt extends IdentityEntity{
     private Employee employee;
 
     @OneToMany(mappedBy = "receipt")
-    private Set<Sale> sales = new HashSet<>();
+    private final Set<Sale> sales = new HashSet<>();
 
     // -----------------------
 

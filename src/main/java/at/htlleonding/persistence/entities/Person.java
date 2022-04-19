@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 @MappedSuperclass
 public abstract class Person extends IdentityEntity {
-
     @Column(nullable = false)
     private String firstName;
     @Column(nullable = false)

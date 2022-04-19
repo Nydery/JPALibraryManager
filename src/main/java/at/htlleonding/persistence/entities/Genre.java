@@ -7,12 +7,11 @@ import java.util.Set;
 
 @Entity
 public class Genre extends IdentityEntity {
-
     @Column(length = 256, nullable = false)
     private String keyword;
 
     @OneToMany(mappedBy = "genre")
-    private Set<MediaItem> mediaItems = new HashSet<>();
+    private final Set<MediaItem> mediaItems = new HashSet<>();
 
     //-----------------
 

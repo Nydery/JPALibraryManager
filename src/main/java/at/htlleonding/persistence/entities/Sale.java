@@ -7,7 +7,6 @@ import java.util.Set;
 
 @Entity
 public class Sale extends IdentityEntity{
-
     @Column
     private LocalDate datetime;
 
@@ -15,7 +14,7 @@ public class Sale extends IdentityEntity{
     private Receipt receipt;
 
     @ManyToMany(mappedBy = "sales")
-    private Set<MediaExemplar> mediaExemplars = new HashSet<>();
+    private final Set<MediaExemplar> mediaExemplars = new HashSet<>();
 
     //-----------------
 

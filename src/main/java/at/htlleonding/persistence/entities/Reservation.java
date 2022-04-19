@@ -19,6 +19,8 @@ public class Reservation extends IdentityEntity{
     @Column(scale = 1, precision = 0)
     private int renewalCounter;
 
+
+
     public LocalDateTime getDatetime() {
         return datetime;
     }

@@ -11,7 +11,7 @@ public class Publisher extends IdentityEntity {
     private String name;
 
     @OneToMany(mappedBy = "publisher")
-    private Set<MediaExemplar> mediaExemplars = new HashSet<>();
+    private final Set<MediaExemplar> mediaExemplars = new HashSet<>();
 
     // ---------------------
 
