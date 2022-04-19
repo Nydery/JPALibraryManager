@@ -2,7 +2,7 @@ package at.htlleonding.persistence.models;
 
 import at.htlleonding.persistence.IEntity;
 
-public class IdentityModel implements IEntity {
+public abstract class IdentityModel implements IEntity {
     protected long id;
 
     public long getId() {
