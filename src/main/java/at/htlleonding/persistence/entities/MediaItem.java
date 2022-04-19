@@ -33,7 +33,6 @@ public class MediaItem extends IdentityEntity{
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -49,7 +48,6 @@ public class MediaItem extends IdentityEntity{
     public Genre getGenre() {
         return genre;
     }
-
     public void setGenre(Genre genre) {
         this.genre = genre;
     }
