@@ -13,12 +13,11 @@ public class Publisher extends IdentityEntity {
     @OneToMany(mappedBy = "publisher")
     private final Set<MediaExemplar> mediaExemplars = new HashSet<>();
 
-    // ---------------------
+    // -------------------------
 
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
