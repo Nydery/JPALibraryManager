@@ -1,6 +1,9 @@
 package at.htlleonding.logic;
 
 import at.htlleonding.persistence.*;
+import at.htlleonding.persistence.entities.MediaExemplar;
+import at.htlleonding.persistence.entities.MediaItem;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -13,6 +16,16 @@ import javax.inject.Inject;
 public class LibraryLogic {
     @Inject
     LibraryRepository repository;
+
+    public void addMediaItem(MediaItem item) {
+
+    }
+
+    public void addMediaExemplar(MediaExemplar exemplar) {
+
+    }
+
+
 
     /*
     public void add(IEntity entity) {
