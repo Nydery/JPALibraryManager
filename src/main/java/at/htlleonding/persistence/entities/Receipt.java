@@ -36,4 +36,15 @@ public class Receipt extends IdentityEntity{
     public Set<Sale> getSales() {
         return sales;
     }
+
+    //custom methods
+    public double getTotalPrice() {
+        var result = 0.0;
+
+        for(var sale : sales) {
+            result += sale.getMediaExemplar().getMediaType().getPrice();
+        }
+
+        return result;
+    }
 }
