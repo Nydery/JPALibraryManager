@@ -8,9 +8,6 @@ import java.util.Set;
 
 @Entity
 public class Author extends Person{
-    @Column(nullable = true)
-    private String name;
-
     @ManyToMany(mappedBy = "authors")
     private final Set<MediaItem> mediaItems = new HashSet<>();
 
@@ -19,20 +16,11 @@ public class Author extends Person{
     public Author() {
     }
 
-    public Author(String firstName, String lastName, String name) {
+    public Author(String firstName, String lastName) {
         super(firstName, lastName);
-        this.name = name;
     }
 
     //-----------------
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Set<MediaItem> getMediaItems() {
         return mediaItems;
