@@ -8,11 +8,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="jpa-SimpleLibrary-ORM" />
         <module name="jpaLibraryManager" />
+        <module name="JPALibraryManager" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="JPALibraryManager" options="-parameters" />
       <module name="jpa-SimpleLibrary-ORM" options="-parameters" />
       <module name="jpaLibraryManager" options="-parameters" />
     </option>
