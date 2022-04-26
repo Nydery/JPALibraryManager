@@ -2,13 +2,13 @@ package at.htlleonding.persistence.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class MediaExemplar extends IdentityEntity {
     private LocalDate buyDate;
     private boolean forSale = false;
+    private boolean isSold = false;
 
     @ManyToOne
     private MediaItem mediaItem;
@@ -19,6 +19,10 @@ public class MediaExemplar extends IdentityEntity {
     @ManyToOne
     private Publisher publisher;
 
+    @ManyToOne
+    private MediaType mediaType;
+
+    /*
     @ManyToMany
     @JoinTable(
             name = "MediaExemplar_Sales",
@@ -26,13 +30,12 @@ public class MediaExemplar extends IdentityEntity {
             inverseJoinColumns = @JoinColumn(name = "sales_id")
     )
     private Set<Sale> sales = new HashSet<>();
-
+     */
     // ---------------------
 
     public MediaItem getMediaItem() {
         return mediaItem;
     }
-
     public void setMediaItem(MediaItem mediaItem) {
         this.mediaItem = mediaItem;
     }
@@ -40,7 +43,6 @@ public class MediaExemplar extends IdentityEntity {
     public Language getLanguage() {
         return language;
     }
-
     public void setLanguage(Language language) {
         this.language = language;
     }
@@ -48,7 +50,6 @@ public class MediaExemplar extends IdentityEntity {
     public LocalDate getBuyDate() {
         return buyDate;
     }
-
     public void setBuyDate(LocalDate buyDate) {
         this.buyDate = buyDate;
     }
@@ -56,20 +57,28 @@ public class MediaExemplar extends IdentityEntity {
     public boolean isForSale() {
         return forSale;
     }
-
     public void setForSale(boolean forSale) {
         this.forSale = forSale;
+    }
+
+    public boolean isSold() {
+        return isSold;
+    }
+    public void setSold(boolean sold) {
+        isSold = sold;
     }
 
     public Publisher getPublisher() {
         return publisher;
     }
-
     public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
     }
 
-    public Set<Sale> getSales() {
-        return sales;
+    public MediaType getMediaType() {
+        return mediaType;
+    }
+    public void setMediaType(MediaType mediaType) {
+        this.mediaType = mediaType;
     }
 }
