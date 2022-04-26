@@ -54,6 +54,37 @@ public class LibraryRepository {
 
     //----------------------------
     //Special adds
+
+    //MediaItem
+    @Transactional
+    public void add(MediaItem item, Author author) {
+        if(item == null)
+            throw new IllegalArgumentException("item");
+        else if(author == null)
+            throw new IllegalArgumentException("author");
+
+        item.getAuthors().add(author);
+        author.getMediaItems().add(item);
+
+        entityManager.persist(item);
+    }
+
+    @Transactional
+    public void add(MediaItem item, Topic topic) {
+        if(item == null)
+            throw new IllegalArgumentException("item");
+        else if (topic == null)
+            throw new IllegalArgumentException("topic");
+
+        item.getTopics().add(topic);
+        topic.getMediaItems().add(item);
+
+        entityManager.persist(item);
+    }
+
+
+
+
     /*
     @Transactional
     public void add(Book b, Author a, boolean isPrimaryAuthor) {
