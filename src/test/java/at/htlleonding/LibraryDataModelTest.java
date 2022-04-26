@@ -35,8 +35,8 @@ public class LibraryDataModelTest {
     }
 
     private void createAuthors() {
-        author1 = new Author("George", "Orwell", "");
-        author2 = new Author("William", "Shakespeare", "");
+        author1 = new Author("George", "Orwell");
+        author2 = new Author("William", "Shakespeare");
 
         target.persist(author1);
         target.persist(author2);
