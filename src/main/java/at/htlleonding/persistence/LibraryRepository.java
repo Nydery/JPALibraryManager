@@ -3,12 +3,12 @@ package at.htlleonding.persistence;
 
 import at.htlleonding.persistence.entities.*;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Transient;
 import javax.transaction.Transactional;
 
 // @Transactional
@@ -30,7 +30,7 @@ public class LibraryRepository {
     @Inject
     EntityManager entityManager;
 
-    //TODO 2: Add add-Methods for the various entities
+
     @Transactional
     public void add(IEntity entity) {
         if (entity == null)
@@ -45,6 +45,13 @@ public class LibraryRepository {
             throw new IllegalArgumentException("entity");
 
         entityManager.remove(entity);
+    }
+
+    public List getAll(Type entityType) {
+        String tableName = entityType.getTypeName();
+
+        return entityManager.createQuery(String.format("select t from %s t", tableName))
+                .getResultList();
     }
 
     @Transactional
