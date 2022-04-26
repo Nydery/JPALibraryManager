@@ -2,8 +2,6 @@ package at.htlleonding.persistence.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Sale extends IdentityEntity{
@@ -13,8 +11,8 @@ public class Sale extends IdentityEntity{
     @ManyToOne
     private Receipt receipt;
 
-    @ManyToMany(mappedBy = "sales")
-    private final Set<MediaExemplar> mediaExemplars = new HashSet<>();
+    @ManyToOne
+    private MediaExemplar mediaExemplar;
 
     //-----------------
 
@@ -29,12 +27,21 @@ public class Sale extends IdentityEntity{
     public LocalDate getDatetime() {
         return datetime;
     }
-
     public void setDatetime(LocalDate datetime) {
         this.datetime = datetime;
     }
 
-    public Set<MediaExemplar> getMediaExemplars() {
-        return mediaExemplars;
+    public Receipt getReceipt() {
+        return receipt;
+    }
+    public void setReceipt(Receipt receipt) {
+        this.receipt = receipt;
+    }
+
+    public MediaExemplar getMediaExemplar() {
+        return mediaExemplar;
+    }
+    public void setMediaExemplar(MediaExemplar mediaExemplar) {
+        this.mediaExemplar = mediaExemplar;
     }
 }
