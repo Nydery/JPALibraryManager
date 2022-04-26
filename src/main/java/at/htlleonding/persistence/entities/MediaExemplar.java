@@ -7,6 +7,7 @@ import java.util.Set;
 @Entity
 public class MediaExemplar extends IdentityEntity {
     private LocalDate buyDate;
+    private boolean forRent = false;
     private boolean forSale = false;
     private boolean isSold = false;
 
@@ -52,6 +53,13 @@ public class MediaExemplar extends IdentityEntity {
     }
     public void setBuyDate(LocalDate buyDate) {
         this.buyDate = buyDate;
+    }
+
+    public boolean isForRent() {
+        return forRent;
+    }
+    public void setForRent(boolean forRent) {
+        this.forRent = forRent;
     }
 
     public boolean isForSale() {
