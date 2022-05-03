@@ -26,7 +26,6 @@ public class LibraryLogic {
     }
 
 
-
     /*
     public void add(IEntity entity) {
         repository.add(entity);
