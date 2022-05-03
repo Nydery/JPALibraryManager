@@ -66,6 +66,20 @@ public class LibraryLogic {
         return repository.add(personDB).getId();
     }
 
+
+    public CustomerModel getCustomerById(long id){
+        Customer cust = (Customer) repository.getById(Customer.class, id);
+        CustomerModel model = new CustomerModel();
+        mapper.map(cust, model);
+        return model;
+    }
+
+    public EmployeeModel getEmployeeById(long id){
+        Employee emp = (Employee) repository.getById(Employee.class, id);
+        EmployeeModel model = new EmployeeModel();
+        mapper.map(emp, model);
+        return model;
+    }
     /*
     public void add(IEntity entity) {
         repository.add(entity);
