@@ -97,8 +97,11 @@ public class LibraryRepository {
         entityManager.persist(item);
     }
 
+<<<<<<< Updated upstream
     @Transactional
 
+=======
+>>>>>>> Stashed changes
 
     /*
     @Transactional
