@@ -1,10 +1,7 @@
 package at.htlleonding;
 
 import at.htlleonding.persistence.LibraryRepository;
-import at.htlleonding.persistence.entities.Author;
-import at.htlleonding.persistence.entities.Genre;
-import at.htlleonding.persistence.entities.MediaItem;
-import at.htlleonding.persistence.entities.Topic;
+import at.htlleonding.persistence.entities.*;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Assertions;
@@ -119,6 +116,22 @@ public class LibraryRepositoryTest {
         persistMediaItem(mediaItem);
 
 
+    }
+
+    @Test
+    @TestTransaction
+    public void getAllLanguages() {
+        var l1 = new Language();
+        l1.setKeyword("Deutsch");
+
+        var l2 = new Language();
+        l2.setKeyword("Englisch");
+
+        repository.add(l1);
+        repository.add(l2);
+
+        var languages = repository.getAll(Language.class);
+        Assertions.assertEquals(2, languages.size());
     }
     //Further testing
 }
