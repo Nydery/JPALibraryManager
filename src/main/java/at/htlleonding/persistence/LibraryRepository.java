@@ -32,11 +32,12 @@ public class LibraryRepository {
 
 
     @Transactional
-    public void add(IEntity entity) {
+    public IEntity add(IEntity entity) {
         if (entity == null)
             throw new IllegalArgumentException("entity");
 
         entityManager.persist(entity);
+        return entity;
     }
 
     @Transactional
@@ -52,6 +53,13 @@ public class LibraryRepository {
 
         return entityManager.createQuery(String.format("select t from %s t", tableName))
                 .getResultList();
+    }
+
+    public IEntity getById(Type entityType, long id) {
+        String tableName = entityType.getTypeName();
+
+        return (IEntity) entityManager.createQuery(String.format("select t from %s t where t.id = %s", tableName, id))
+                .getSingleResult();
     }
 
     @Transactional
@@ -89,7 +97,7 @@ public class LibraryRepository {
         entityManager.persist(item);
     }
 
-
+    @Transactional
 
 
     /*
