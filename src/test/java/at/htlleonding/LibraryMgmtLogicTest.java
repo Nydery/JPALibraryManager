@@ -1,13 +1,14 @@
 package at.htlleonding;
 
 import at.htlleonding.logic.LibraryLogic;
+import at.htlleonding.persistence.entities.Customer;
+import at.htlleonding.persistence.models.CustomerModel;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
-import java.time.LocalDate;
 
 @QuarkusTest
 class LibraryMgmtLogicTest {
@@ -23,6 +24,7 @@ class LibraryMgmtLogicTest {
     @TestTransaction
     public void addPaperBookWithOneAuthor_makeRentable_canBeRented()
     {
+
         Assertions.fail("Not implemented yet");
     }
 
@@ -77,13 +79,28 @@ class LibraryMgmtLogicTest {
     @TestTransaction
     public void addLibraryCustomer_isAvailable()
     {
-        Assertions.fail("Not implemented yet");
+        CustomerModel c = new CustomerModel();
+        c.setFirstName("Marcel");
+        c.setLastName("Davis");
+        c.setEmail("m.davis@1und1.com");
+        c.setEmployee(false);
+        c.setPhoneNumber("0123456789");
+
+        target.addCustomer(c);
+
+        //Check if available in db
+        var checkC = target.getCustomerById(c.getId());
+
+        Assertions.assertNotNull(checkC);
+        Assertions.assertEquals("Marcel", checkC.getFirstName());
+        Assertions.assertEquals("Davis", checkC.getLastName());
     }
 
     @Test
     @TestTransaction
     public void addLibraryEmployee_isAvailable()
     {
+
         Assertions.fail("Not implemented yet");
     }
 
