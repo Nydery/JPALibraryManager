@@ -78,7 +78,7 @@ public class LibraryLogic {
         mapper.map(emp, model);
         return model;
     }
-    /*
+
     public Long addPublisher(PublisherModel publisherModel) {
         var publisherDB = mapper.map(publisherModel, Publisher.class);
         return repository.add(publisherDB).getId();
@@ -107,4 +107,6 @@ public class LibraryLogic {
         var topicDB = mapper.map(topicModel, Topic.class);
         return repository.add(topicDB).getId();
     }
+
+     
 }
