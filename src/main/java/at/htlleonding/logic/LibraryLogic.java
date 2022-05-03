@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 /*
  LibraryLogic: Interface to the library data. Provides an entity-free interface to the outside.
@@ -20,12 +21,14 @@ public class LibraryLogic {
 
     ModelMapper mapper = new ModelMapper();
 
+    public void flushAndClear() {
+        repository.flushAndClear();
+    }
+
     public Long addAuthor(AuthorModel authorModel) {
         var authorDB = mapper.map(authorModel, Author.class);
         var result = repository.add(authorDB);
-
-        repository.saveChanges();
-
+        
         return result.getId();
     }
 
@@ -33,61 +36,61 @@ public class LibraryLogic {
         var mediaExemplarDB = mapper.map(exemplarModel, MediaExemplar.class);
         var result =  repository.add(mediaExemplarDB);
 
-        repository.saveChanges();
-
         return result.getId();
     }
 
+    @Transactional
     public Long addCustomer(CustomerModel customerModel){
         var customerDB = mapper.map(customerModel, Customer.class);
         var result =  repository.add(customerDB);
-        repository.saveChanges();
+
         return result.getId();
     }
 
     public Long addEmployee(EmployeeModel employeeModel){
         var employeeDB = mapper.map(employeeModel, Customer.class);
         var result =  repository.add(employeeDB);
-        repository.saveChanges();
+
         return result.getId();
     }
 
     public Long addGenre(GenreModel genreModel){
         var genreDB = mapper.map(genreModel, Genre.class);
         var result =  repository.add(genreDB);
-        repository.saveChanges();
+
         return result.getId();
     }
 
     public Long addLanguage(LanguageModel languageModel){
         var languageDB = mapper.map(languageModel, Language.class);
         var result =  repository.add(languageDB);
-        repository.saveChanges();
+
         return result.getId();
     }
 
     public Long addMediaItem(MediaItemModel mediaItemModel){
         var mediaItemDB = mapper.map(mediaItemModel, MediaItem.class);
         var result =  repository.add(mediaItemDB);
-        repository.saveChanges();
+
         return result.getId();
     }
 
     public Long addMediaType(MediaTypeModel mediaTypeModel){
         var mediaTypeDB = mapper.map(mediaTypeModel, MediaType.class);
         var result =  repository.add(mediaTypeDB);
-        repository.saveChanges();
+
         return result.getId();
     }
 
     public Long addPerson(PersonModel personModel){
         var personDB = mapper.map(personModel, Person.class);
         var result =  repository.add(personDB);
-        repository.saveChanges();
+
         return result.getId();
     }
 
     public CustomerModel getCustomerById(long id){
+        //var temp = repository.getById(Customer.class, id);
         Customer cust = (Customer) repository.getById(Customer.class, id);
         CustomerModel model = new CustomerModel();
         mapper.map(cust, model);
@@ -104,39 +107,35 @@ public class LibraryLogic {
     public Long addPublisher(PublisherModel publisherModel) {
         var publisherDB = mapper.map(publisherModel, Publisher.class);
         var result =  repository.add(publisherDB);
-        repository.saveChanges();
-        return result.getId();
-    }
 
-    public void add(IEntity entity) {
-        repository.add(entity);
+        return result.getId();
     }
 
     public Long addReceipt(ReceiptModel receiptModel){
         var receiptDB = mapper.map(receiptModel, Receipt.class);
         var result =  repository.add(receiptDB);
-        repository.saveChanges();
+
         return result.getId();
     }
 
     public Long addReservation(ReservationModel reservationModel){
         var reservationDB = mapper.map(reservationModel, Reservation.class);
         var result =  repository.add(reservationDB);
-        repository.saveChanges();
+
         return result.getId();
     }
 
     public Long addSale(SaleModel saleModel){
         var saleDB = mapper.map(saleModel, Sale.class);
         var result =  repository.add(saleDB);
-        repository.saveChanges();
+
         return result.getId();
     }
 
     public Long addTopic(TopicModel topicModel){
         var topicDB = mapper.map(topicModel, Topic.class);
         var result =  repository.add(topicDB);
-        repository.saveChanges();
+
         return result.getId();
     }
 
