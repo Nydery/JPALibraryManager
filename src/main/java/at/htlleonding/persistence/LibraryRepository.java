@@ -58,13 +58,15 @@ public class LibraryRepository {
     public IEntity getById(Type entityType, long id) {
         String tableName = entityType.getTypeName();
 
-        return (IEntity) entityManager.createQuery(String.format("select t from %s t where t.id = %s", tableName, id))
+        String query = String.format("select t from %s t where t.id = %s", tableName, id);
+        return entityManager.createQuery("select t from Customer t where t.id = :id", Customer.class)
                 .getSingleResult();
     }
 
     @Transactional
-    public void saveChanges() {
+    public void flushAndClear() {
         entityManager.flush();
+        entityManager.clear();
     }
 
     //----------------------------
