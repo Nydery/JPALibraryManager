@@ -22,47 +22,69 @@ public class LibraryLogic {
 
     public Long addAuthor(AuthorModel authorModel) {
         var authorDB = mapper.map(authorModel, Author.class);
-        return repository.add(authorDB).getId();
+        var result = repository.add(authorDB);
+
+        repository.saveChanges();
+
+        return result.getId();
     }
 
     public Long addMediaExemplar(MediaExemplarModel exemplarModel) {
         var mediaExemplarDB = mapper.map(exemplarModel, MediaExemplar.class);
-        return repository.add(mediaExemplarDB).getId();
+        var result =  repository.add(mediaExemplarDB);
+
+        repository.saveChanges();
+
+        return result.getId();
     }
 
     public Long addCustomer(CustomerModel customerModel){
         var customerDB = mapper.map(customerModel, Customer.class);
-        return repository.add(customerDB).getId();
+        var result =  repository.add(customerDB);
+        repository.saveChanges();
+        return result.getId();
     }
 
     public Long addEmployee(EmployeeModel employeeModel){
         var employeeDB = mapper.map(employeeModel, Customer.class);
-        return repository.add(employeeDB).getId();
+        var result =  repository.add(employeeDB);
+        repository.saveChanges();
+        return result.getId();
     }
 
     public Long addGenre(GenreModel genreModel){
         var genreDB = mapper.map(genreModel, Genre.class);
-        return repository.add(genreDB).getId();
+        var result =  repository.add(genreDB);
+        repository.saveChanges();
+        return result.getId();
     }
 
     public Long addLanguage(LanguageModel languageModel){
         var languageDB = mapper.map(languageModel, Language.class);
-        return repository.add(languageDB).getId();
+        var result =  repository.add(languageDB);
+        repository.saveChanges();
+        return result.getId();
     }
 
     public Long addMediaItem(MediaItemModel mediaItemModel){
         var mediaItemDB = mapper.map(mediaItemModel, MediaItem.class);
-        return repository.add(mediaItemDB).getId();
+        var result =  repository.add(mediaItemDB);
+        repository.saveChanges();
+        return result.getId();
     }
 
     public Long addMediaType(MediaTypeModel mediaTypeModel){
         var mediaTypeDB = mapper.map(mediaTypeModel, MediaType.class);
-        return repository.add(mediaTypeDB).getId();
+        var result =  repository.add(mediaTypeDB);
+        repository.saveChanges();
+        return result.getId();
     }
 
     public Long addPerson(PersonModel personModel){
         var personDB = mapper.map(personModel, Person.class);
-        return repository.add(personDB).getId();
+        var result =  repository.add(personDB);
+        repository.saveChanges();
+        return result.getId();
     }
 
     public CustomerModel getCustomerById(long id){
@@ -81,7 +103,9 @@ public class LibraryLogic {
 
     public Long addPublisher(PublisherModel publisherModel) {
         var publisherDB = mapper.map(publisherModel, Publisher.class);
-        return repository.add(publisherDB).getId();
+        var result =  repository.add(publisherDB);
+        repository.saveChanges();
+        return result.getId();
     }
 
     public void add(IEntity entity) {
@@ -90,22 +114,30 @@ public class LibraryLogic {
 
     public Long addReceipt(ReceiptModel receiptModel){
         var receiptDB = mapper.map(receiptModel, Receipt.class);
-        return repository.add(receiptDB).getId();
+        var result =  repository.add(receiptDB);
+        repository.saveChanges();
+        return result.getId();
     }
 
     public Long addReservation(ReservationModel reservationModel){
         var reservationDB = mapper.map(reservationModel, Reservation.class);
-        return repository.add(reservationDB).getId();
+        var result =  repository.add(reservationDB);
+        repository.saveChanges();
+        return result.getId();
     }
 
     public Long addSale(SaleModel saleModel){
         var saleDB = mapper.map(saleModel, Sale.class);
-        return repository.add(saleDB).getId();
+        var result =  repository.add(saleDB);
+        repository.saveChanges();
+        return result.getId();
     }
 
     public Long addTopic(TopicModel topicModel){
         var topicDB = mapper.map(topicModel, Topic.class);
-        return repository.add(topicDB).getId();
+        var result =  repository.add(topicDB);
+        repository.saveChanges();
+        return result.getId();
     }
 
      
