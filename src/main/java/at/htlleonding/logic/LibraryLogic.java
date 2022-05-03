@@ -7,7 +7,6 @@ import org.modelmapper.ModelMapper;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.awt.*;
 
 /*
  LibraryLogic: Interface to the library data. Provides an entity-free interface to the outside.
@@ -66,7 +65,6 @@ public class LibraryLogic {
         return repository.add(personDB).getId();
     }
 
-
     public CustomerModel getCustomerById(long id){
         Customer cust = (Customer) repository.getById(Customer.class, id);
         CustomerModel model = new CustomerModel();
@@ -81,12 +79,32 @@ public class LibraryLogic {
         return model;
     }
     /*
+    public Long addPublisher(PublisherModel publisherModel) {
+        var publisherDB = mapper.map(publisherModel, Publisher.class);
+        return repository.add(publisherDB).getId();
+    }
+
     public void add(IEntity entity) {
         repository.add(entity);
     }
 
-    public void remove(IEntity entity) {
-        repository.remove(entity);
+    public Long addReceipt(ReceiptModel receiptModel){
+        var receiptDB = mapper.map(receiptModel, Receipt.class);
+        return repository.add(receiptDB).getId();
     }
-    */
+
+    public Long addReservation(ReservationModel reservationModel){
+        var reservationDB = mapper.map(reservationModel, Reservation.class);
+        return repository.add(reservationDB).getId();
+    }
+
+    public Long addSale(SaleModel saleModel){
+        var saleDB = mapper.map(saleModel, Sale.class);
+        return repository.add(saleDB).getId();
+    }
+
+    public Long addTopic(TopicModel topicModel){
+        var topicDB = mapper.map(topicModel, Topic.class);
+        return repository.add(topicDB).getId();
+    }
 }

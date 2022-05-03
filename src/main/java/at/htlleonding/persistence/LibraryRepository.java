@@ -96,8 +96,7 @@ public class LibraryRepository {
 
         entityManager.persist(item);
     }
-
-
+    
     /*
     @Transactional
     public void add(Book b, Author a, boolean isPrimaryAuthor) {
