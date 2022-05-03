@@ -46,7 +46,8 @@ class LibraryMgmtLogicTest {
         result.setBuyDate(buyDate);
         result.setForSale(forSale);
 
-        result.set
+        //result.set
+        return null;
     }
 
     /*
