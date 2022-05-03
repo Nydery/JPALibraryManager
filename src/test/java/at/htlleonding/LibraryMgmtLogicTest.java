@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 
 @QuarkusTest
@@ -21,6 +22,10 @@ class LibraryMgmtLogicTest {
     /*
     Helper methods for tests
     */
+    private void flushAndClear() {
+        target.flushAndClear();
+    }
+
     private MediaItemModel createMediaItem(String title, String genre, String[] topics) {
         var result = new MediaItemModel();
 
@@ -39,15 +44,22 @@ class LibraryMgmtLogicTest {
         return result;
     }
 
-    private MediaExemplar createMediaExemplar(MediaItem item, LocalDate buyDate, String language, PublisherModel publisher, boolean forSale) {
+    private MediaExemplarModel createMediaExemplar(MediaItemModel item, LocalDate buyDate, String language, String publisherName, boolean forSale) {
         var result = new MediaExemplarModel();
 
         result.setMediaItem(item);
         result.setBuyDate(buyDate);
         result.setForSale(forSale);
+        var pub = new PublisherModel();
+        pub.setName(publisherName);
 
-        //result.set
-        return null;
+        result.setPublisher(pub);
+
+        var lang = new LanguageModel();
+        lang.setKeyword(language);
+        result.setLanguage(lang);
+
+        return result;
     }
 
     /*
@@ -60,10 +72,11 @@ class LibraryMgmtLogicTest {
     {
         var mediaItem = createMediaItem("1984", "dystopian", new String[] {"idktopic"});
         target.addMediaItem(mediaItem);
-        var mediaExemplar = createMediaExemplar(mediaItem);
+        var mediaExemplar = createMediaExemplar(mediaItem, LocalDate.now(), "Deutsch", "HTL Leonding", false);
+        //Further implement test
 
 
-        Assertions.fail("Not implemented yet");
+        Assertions.fail("Not fully implemented yet");
     }
 
     @Test
@@ -127,11 +140,14 @@ class LibraryMgmtLogicTest {
         target.addCustomer(c);
 
         //Check if available in db
+        //getById(IEntity ...) not working yet...
         var checkC = target.getCustomerById(c.getId());
 
         Assertions.assertNotNull(checkC);
         Assertions.assertEquals("Marcel", checkC.getFirstName());
         Assertions.assertEquals("Davis", checkC.getLastName());
+
+
     }
 
     @Test
