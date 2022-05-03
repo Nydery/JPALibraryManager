@@ -96,13 +96,7 @@ public class LibraryRepository {
 
         entityManager.persist(item);
     }
-
-<<<<<<< Updated upstream
-    @Transactional
-
-=======
->>>>>>> Stashed changes
-
+    
     /*
     @Transactional
     public void add(Book b, Author a, boolean isPrimaryAuthor) {

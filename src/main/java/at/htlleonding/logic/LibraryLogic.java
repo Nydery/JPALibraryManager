@@ -65,9 +65,13 @@ public class LibraryLogic {
         return repository.add(personDB).getId();
     }
 
-    public Long addPublisher(PublisherModel publisherModel){
+    public Long addPublisher(PublisherModel publisherModel) {
         var publisherDB = mapper.map(publisherModel, Publisher.class);
-        return  repository.add(publisherDB).getId();
+        return repository.add(publisherDB).getId();
+    }
+
+    public void add(IEntity entity) {
+        repository.add(entity);
     }
 
     public Long addReceipt(ReceiptModel receiptModel){
