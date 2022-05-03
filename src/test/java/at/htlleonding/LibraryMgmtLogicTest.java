@@ -2,20 +2,52 @@ package at.htlleonding;
 
 import at.htlleonding.logic.LibraryLogic;
 import at.htlleonding.persistence.entities.Customer;
-import at.htlleonding.persistence.models.CustomerModel;
-import at.htlleonding.persistence.models.EmployeeModel;
+import at.htlleonding.persistence.entities.MediaExemplar;
+import at.htlleonding.persistence.entities.MediaItem;
+import at.htlleonding.persistence.models.*;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
 
 @QuarkusTest
 class LibraryMgmtLogicTest {
 
     @Inject
     LibraryLogic target;
+    /*
+    Helper methods for tests
+    */
+    private MediaItemModel createMediaItem(String title, String genre, String[] topics) {
+        var result = new MediaItemModel();
+
+        result.setTitle(title);
+        var genr = new GenreModel();
+        genr.setKeyword(genre);
+
+        result.setGenre(genr);
+
+        for (var t : topics) {
+            var topic = new TopicModel();
+            topic.setKeyword(t);
+            result.getTopics().add(topic);
+        }
+
+        return result;
+    }
+
+    private MediaExemplar createMediaExemplar(MediaItem item, LocalDate buyDate, String language, PublisherModel publisher, boolean forSale) {
+        var result = new MediaExemplarModel();
+
+        result.setMediaItem(item);
+        result.setBuyDate(buyDate);
+        result.setForSale(forSale);
+
+        result.set
+    }
 
     /*
     Add rentable items to the library, of each media type, with multiple authors and attributes.
@@ -25,6 +57,10 @@ class LibraryMgmtLogicTest {
     @TestTransaction
     public void addPaperBookWithOneAuthor_makeRentable_canBeRented()
     {
+        var mediaItem = createMediaItem("1984", "dystopian", new String[] {"idktopic"});
+        target.addMediaItem(mediaItem);
+        var mediaExemplar = createMediaExemplar(mediaItem);
+
 
         Assertions.fail("Not implemented yet");
     }
@@ -200,6 +236,7 @@ class LibraryMgmtLogicTest {
     @TestTransaction
     public void setItemForSale_cannotBeRented()
     {
+
         Assertions.fail("Not implemented yet");
     }
 
@@ -207,6 +244,8 @@ class LibraryMgmtLogicTest {
     @TestTransaction
     public void setOneOfTwoItemsForSale_onlyOneCanBeRented()
     {
+
+
         Assertions.fail("Not implemented yet");
     }
 
@@ -214,6 +253,8 @@ class LibraryMgmtLogicTest {
     @TestTransaction
     public void setThreeDifferentItemsForSale_CustomerBuys2_InvoiceHasTwoItems_OnlyOneItemForRent()
     {
+
+
         Assertions.fail("Not implemented yet");
     }
 }
