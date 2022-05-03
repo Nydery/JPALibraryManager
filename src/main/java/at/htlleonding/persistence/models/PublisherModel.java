@@ -3,7 +3,7 @@ package at.htlleonding.persistence.models;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PublisherModel extends PersonModel{
+public class PublisherModel extends IdentityModel{
     private String name;
     private final Set<MediaExemplarModel> mediaExemplars = new HashSet<>();
 
