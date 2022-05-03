@@ -9,6 +9,7 @@ import java.util.Set;
 @Entity
 public class Author extends Person{
     @ManyToMany(mappedBy = "authors")
+
     private final Set<MediaItem> mediaItems = new HashSet<>();
 
     //-----------------
@@ -25,4 +26,7 @@ public class Author extends Person{
     public Set<MediaItem> getMediaItems() {
         return mediaItems;
     }
+
+
+
 }
