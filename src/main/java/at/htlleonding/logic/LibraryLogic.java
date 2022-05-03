@@ -66,11 +66,6 @@ public class LibraryLogic {
         return repository.add(personDB).getId();
     }
 
-<<<<<<< Updated upstream
-=======
-    
-
->>>>>>> Stashed changes
     /*
     public void add(IEntity entity) {
         repository.add(entity);

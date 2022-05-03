@@ -97,8 +97,6 @@ public class LibraryRepository {
         entityManager.persist(item);
     }
 
-    @Transactional
-
 
     /*
     @Transactional
