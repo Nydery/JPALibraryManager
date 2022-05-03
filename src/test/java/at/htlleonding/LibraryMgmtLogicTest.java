@@ -3,6 +3,7 @@ package at.htlleonding;
 import at.htlleonding.logic.LibraryLogic;
 import at.htlleonding.persistence.entities.Customer;
 import at.htlleonding.persistence.models.CustomerModel;
+import at.htlleonding.persistence.models.EmployeeModel;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Assertions;
@@ -100,8 +101,20 @@ class LibraryMgmtLogicTest {
     @TestTransaction
     public void addLibraryEmployee_isAvailable()
     {
+        EmployeeModel c = new EmployeeModel();
+        c.setFirstName("Marcel");
+        c.setLastName("Davis");
+        c.setSalary(1_500);
 
-        Assertions.fail("Not implemented yet");
+        target.addEmployee(c);
+
+        //Check if available in db
+        var checkC = target.getEmployeeById(c.getId());
+
+        Assertions.assertNotNull(checkC);
+        Assertions.assertEquals("Marcel", checkC.getFirstName());
+        Assertions.assertEquals("Davis", checkC.getLastName());
+        Assertions.assertEquals(1500, checkC.getSalary());
     }
 
     /*
