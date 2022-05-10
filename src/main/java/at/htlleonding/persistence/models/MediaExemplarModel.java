@@ -7,6 +7,7 @@ import java.util.Set;
 public class MediaExemplarModel extends IdentityModel{
     private LocalDate buyDate;
     private boolean forSale = false;
+    private boolean isForRent = false;
     private MediaItemModel mediaItem;
     private LanguageModel language;
     private PublisherModel publisher;
@@ -26,6 +27,13 @@ public class MediaExemplarModel extends IdentityModel{
     }
     public void setForSale(boolean forSale) {
         this.forSale = forSale;
+    }
+
+    public boolean isForRent() {
+        return isForRent;
+    }
+    public void setForRent(boolean forRent) {
+        isForRent = forRent;
     }
 
     public MediaItemModel getMediaItem() {
