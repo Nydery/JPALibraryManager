@@ -36,7 +36,7 @@ public class LibraryLogic {
 
     @Transactional
     public Long addMediaExemplar(MediaExemplarModel exemplarModel) {
-        //Add reference objects to db first
+        //Add reference objects to db first (TODO: switch order of mapping and persisting, bc modelmapper creates new entities...)
         addMediaItem(exemplarModel.getMediaItem());
         addLanguage(exemplarModel.getLanguage());
         addPublisher(exemplarModel.getPublisher());
@@ -166,6 +166,15 @@ public class LibraryLogic {
         return model;
     }
 
+
+    //-------------------------------------------------------
+    // Special getters
+    //-------------------------------------------------------
+
+    public GenreModel getGenreByKeyword(String keyword) {
+        //var result = repository.
+        return null;
+    }
 
     //-------------------------------------------------------
     // Special methods

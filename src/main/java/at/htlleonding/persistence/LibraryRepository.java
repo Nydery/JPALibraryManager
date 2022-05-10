@@ -98,4 +98,14 @@ public class LibraryRepository {
 
         entityManager.persist(item);
     }
+
+    //Special getters
+    public Genre getGenreByKeyword(String keyword) {
+        var result = entityManager.createQuery("select g from Genre g where g.keyword = :key")
+                .setParameter("key", keyword)
+                .getSingleResult();
+        return null;
+
+
+    }
 }
