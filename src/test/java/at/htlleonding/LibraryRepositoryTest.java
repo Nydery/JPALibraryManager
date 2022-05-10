@@ -133,5 +133,21 @@ public class LibraryRepositoryTest {
         var languages = repository.getAll(Language.class);
         Assertions.assertEquals(2, languages.size());
     }
+
+    @Test
+    @TestTransaction
+    public void addEntity_checkIfExists(){
+        var pub = new Publisher();
+        pub.setName("Google Inc.");
+
+        repository.add(pub);
+
+        var pubId = pub.getId();
+        Assertions.assertNotEquals(0, pubId);
+
+        var pubAfter = repository.getById(Publisher.class, pubId);
+
+        Assertions.assertNotNull(pubAfter);
+    }
     //Further testing - min. 2 per method in repository
 }
