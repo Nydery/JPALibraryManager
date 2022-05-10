@@ -139,5 +139,8 @@ public class LibraryLogic {
         return result.getId();
     }
 
+    public boolean isMediaExemplarRentable(long mediaExemplarId) {
+        return ((MediaExemplar)repository.getById(MediaExemplar.class, mediaExemplarId)).isForRent();
+    }
 
 }
