@@ -149,5 +149,6 @@ public class LibraryRepositoryTest {
 
         Assertions.assertNotNull(pubAfter);
     }
+
     //Further testing - min. 2 per method in repository
 }

@@ -98,47 +98,4 @@ public class LibraryRepository {
 
         entityManager.persist(item);
     }
-    
-    /*
-    @Transactional
-    public void add(Book b, Author a, boolean isPrimaryAuthor) {
-        if(b == null)
-            throw new IllegalArgumentException("b");
-        else if (a == null)
-            throw new IllegalArgumentException("a");
-
-        add(b);
-        add(a);
-
-        var ba = new BookAuthor(b, a, isPrimaryAuthor);
-        entityManager.persist(ba);
-    }
-
-    //TODO 2: Add add(Book b, Topic t)
-    @Transactional
-    public void add(Book b, Topic t){
-        if(b == null)
-            throw new IllegalArgumentException("b");
-        else if(t == null)
-            throw new IllegalArgumentException("t");
-
-        add(b);
-        add(t);
-
-        b.getTopics().add(t);
-    }
-
-    //TODO 2: Add add(Book b, Genre g)
-    @Transactional
-    public void add(Book b, Genre g){
-        if(b == null)
-            throw new IllegalArgumentException("b");
-        else if(g == null)
-            throw new IllegalArgumentException("g");
-
-        add(g);
-
-        b.setGenre(g);
-    }
- */
 }
