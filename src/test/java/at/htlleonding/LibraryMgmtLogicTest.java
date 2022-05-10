@@ -1,9 +1,6 @@
 package at.htlleonding;
 
 import at.htlleonding.logic.LibraryLogic;
-import at.htlleonding.persistence.entities.Customer;
-import at.htlleonding.persistence.entities.MediaExemplar;
-import at.htlleonding.persistence.entities.MediaItem;
 import at.htlleonding.persistence.models.*;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
@@ -11,7 +8,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 
 @QuarkusTest
@@ -44,12 +40,14 @@ class LibraryMgmtLogicTest {
         return result;
     }
 
-    private MediaExemplarModel createMediaExemplar(MediaItemModel item, LocalDate buyDate, String language, String publisherName, boolean forSale) {
+    private MediaExemplarModel createMediaExemplar(MediaItemModel item, LocalDate buyDate, String language, String publisherName, boolean forSale, boolean forRent) {
         var result = new MediaExemplarModel();
 
         result.setMediaItem(item);
         result.setBuyDate(buyDate);
         result.setForSale(forSale);
+        result.setForRent(forRent);
+
         var pub = new PublisherModel();
         pub.setName(publisherName);
 
@@ -72,11 +70,13 @@ class LibraryMgmtLogicTest {
     {
         var mediaItem = createMediaItem("1984", "dystopian", new String[] {"idktopic"});
         target.addMediaItem(mediaItem);
-        var mediaExemplar = createMediaExemplar(mediaItem, LocalDate.now(), "Deutsch", "HTL Leonding", false);
-        //Further implement test
+        var mediaExemplar = createMediaExemplar(mediaItem, LocalDate.now(), "Deutsch", "HTL Leonding", false, true);
 
+        var meId = target.addMediaExemplar(mediaExemplar);
 
-        Assertions.fail("Not fully implemented yet");
+        //Check if rentable
+        var actual = target.isMediaExemplarRentable(meId);
+        Assertions.assertTrue(actual);
     }
 
     @Test
@@ -145,8 +145,6 @@ class LibraryMgmtLogicTest {
         Assertions.assertNotNull(checkC);
         Assertions.assertEquals("Marcel", checkC.getFirstName());
         Assertions.assertEquals("Davis", checkC.getLastName());
-
-
     }
 
     @Test
