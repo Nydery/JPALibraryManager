@@ -59,7 +59,7 @@ public class LibraryRepository {
         String tableName = entityType.getTypeName();
 
         String query = String.format("select t from %s t where t.id = %s", tableName, id);
-        return entityManager.createQuery("select t from Customer t where t.id = :id", Customer.class)
+        return entityManager.createQuery(query, IEntity.class)
                 .getSingleResult();
     }
 
