@@ -133,5 +133,5 @@ public class LibraryRepositoryTest {
         var languages = repository.getAll(Language.class);
         Assertions.assertEquals(2, languages.size());
     }
-    //Further testing
+    //Further testing - min. 2 per method in repository
 }
