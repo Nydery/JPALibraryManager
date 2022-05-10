@@ -137,11 +137,10 @@ class LibraryMgmtLogicTest {
         c.setEmployee(false);
         c.setPhoneNumber("0123456789");
 
-        target.addCustomer(c);
+        var cId = target.addCustomer(c);
 
         //Check if available in db
-        //getById(IEntity ...) not working yet...
-        var checkC = target.getCustomerById(c.getId());
+        var checkC = target.getCustomerById(cId);
 
         Assertions.assertNotNull(checkC);
         Assertions.assertEquals("Marcel", checkC.getFirstName());
@@ -154,15 +153,16 @@ class LibraryMgmtLogicTest {
     @TestTransaction
     public void addLibraryEmployee_isAvailable()
     {
-        EmployeeModel c = new EmployeeModel();
-        c.setFirstName("Marcel");
-        c.setLastName("Davis");
-        c.setSalary(1_500);
+        EmployeeModel e = new EmployeeModel();
+        e.setFirstName("Marcel");
+        e.setLastName("Davis");
 
-        target.addEmployee(c);
+        e.setSalary(1_500);
+
+        var eId = target.addEmployee(e);
 
         //Check if available in db
-        var checkC = target.getEmployeeById(c.getId());
+        var checkC = target.getEmployeeById(eId);
 
         Assertions.assertNotNull(checkC);
         Assertions.assertEquals("Marcel", checkC.getFirstName());
