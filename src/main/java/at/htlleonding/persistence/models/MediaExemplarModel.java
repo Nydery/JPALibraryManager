@@ -7,15 +7,10 @@ import java.util.Set;
 public class MediaExemplarModel extends IdentityModel{
     private LocalDate buyDate;
     private boolean forSale = false;
-<<<<<<< Updated upstream
     private boolean isForRent = false;
-=======
-    private boolean forRent = false;
->>>>>>> Stashed changes
     private MediaItemModel mediaItem;
     private LanguageModel language;
     private PublisherModel publisher;
-    private MediaTypeModel mediaType;
     private final Set<SaleModel> sales = new HashSet<>();
 
     //------------------------------------
@@ -60,22 +55,6 @@ public class MediaExemplarModel extends IdentityModel{
     }
     public void setPublisher(PublisherModel publisher) {
         this.publisher = publisher;
-    }
-
-    public boolean isForReant() {
-        return forRent;
-    }
-
-    public void setForReant(boolean forReant) {
-        this.forRent = forReant;
-    }
-
-    public MediaTypeModel getMediaType() {
-        return mediaType;
-    }
-
-    public void setMediaType(MediaTypeModel mediaType) {
-        this.mediaType = mediaType;
     }
 
     public Set<SaleModel> getSales() {

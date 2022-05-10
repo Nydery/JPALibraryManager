@@ -98,40 +98,7 @@ public class LibraryLogic {
         return result.getId();
     }
 
-<<<<<<< Updated upstream
     @Transactional
-=======
-    public Long addPerson(PersonModel personModel){
-        var personDB = mapper.map(personModel, Person.class);
-        var result =  repository.add(personDB);
-
-        return result.getId();
-    }
-
-    public CustomerModel getCustomerById(long id){
-        //var temp = repository.getById(Customer.class, id);
-        Customer cust = (Customer) repository.getById(Customer.class, id);
-        CustomerModel model = new CustomerModel();
-        mapper.map(cust, model);
-        return model;
-    }
-
-    public EmployeeModel getEmployeeById(long id){
-        Employee emp = (Employee) repository.getById(Employee.class, id);
-        EmployeeModel model = new EmployeeModel();
-        mapper.map(emp, model);
-        return model;
-    }
-
-    public MediaExemplarModel getMediaExemplarById(long id){
-        //var temp = repository.getById(Customer.class, id);
-        MediaExemplar exmp = (MediaExemplar) repository.getById(MediaExemplar.class, id);
-        MediaExemplarModel model = new MediaExemplarModel();
-        mapper.map(exmp, model);
-        return model;
-    }
-
->>>>>>> Stashed changes
     public Long addPublisher(PublisherModel publisherModel) {
         var publisherDB = mapper.map(publisherModel, Publisher.class);
         var result =  repository.add(publisherDB);

@@ -1,13 +1,8 @@
 package at.htlleonding;
 
 import at.htlleonding.logic.LibraryLogic;
-<<<<<<< Updated upstream
 import at.htlleonding.persistence.entities.Genre;
 import at.htlleonding.persistence.entities.MediaExemplar;
-=======
-import at.htlleonding.persistence.entities.*;
-import at.htlleonding.persistence.enums.MediaTypes;
->>>>>>> Stashed changes
 import at.htlleonding.persistence.models.*;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
@@ -17,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-
-import static at.htlleonding.persistence.enums.MediaTypes.EBook;
 
 @QuarkusTest
 class LibraryMgmtLogicTest {
@@ -50,11 +43,7 @@ class LibraryMgmtLogicTest {
         return result;
     }
 
-<<<<<<< Updated upstream
     private MediaExemplarModel createMediaExemplar(MediaItemModel item, LocalDate buyDate, String language, String publisherName, boolean forSale, boolean forRent) {
-=======
-    private MediaExemplarModel createMediaExemplar(AuthorModel author, MediaItemModel item, LocalDate buyDate, String language, String publisherName, boolean forSale, boolean forRent, MediaTypeModel mediaType) {
->>>>>>> Stashed changes
         var result = new MediaExemplarModel();
 
         result.setMediaItem(item);
@@ -64,33 +53,15 @@ class LibraryMgmtLogicTest {
 
         var pub = new PublisherModel();
         pub.setName(publisherName);
-        result.setMediaType(mediaType);
+
         result.setPublisher(pub);
+
         var lang = new LanguageModel();
         lang.setKeyword(language);
         result.setLanguage(lang);
-        result.setForReant(forRent);
-        return result;
-    }
-    private MediaTypeModel createMediaType(MediaTypes type, double price) {
-        var result = new MediaTypeModel();
-
-        result.setType(type);
-
-        result.setPrice(price);
 
         return result;
     }
-
-    private AuthorModel createAuthor(String lastname, String firstname) {
-        var result = new AuthorModel();
-
-        result.setLastName(lastname);
-        result.setFirstName(firstname);
-
-        return result;
-    }
-
 
     /*
     Add rentable items to the library, of each media type, with multiple authors and attributes.
@@ -102,36 +73,13 @@ class LibraryMgmtLogicTest {
     {
         var mediaItem = createMediaItem("1984", "dystopian", new String[] {"idktopic"});
         target.addMediaItem(mediaItem);
-<<<<<<< Updated upstream
         var mediaExemplar = createMediaExemplar(mediaItem, LocalDate.now(), "Deutsch", "HTL Leonding", false, true);
-=======
-     //   var mediaExemplar = createMediaExemplar(mediaItem, LocalDate.now(), "Deutsch", "HTL Leonding", false);
-        //Further implement test
->>>>>>> Stashed changes
 
         var meId = target.addMediaExemplar(mediaExemplar);
 
         //Check if rentable
         var actual = target.isMediaExemplarRentable(meId);
         Assertions.assertTrue(actual);
-    }
-
-    @Test
-    @TestTransaction
-    public void addEBookWithOneAuthor_makeRentable_canBeRented()
-    {
-        var author = createAuthor("Sanderson", "Brandon");
-        target.addAuthor(author);
-        var mediaItem = createMediaItem("1984", "dystopian", new String[] {"idktopic"});
-        target.addMediaItem(mediaItem);
-        var mediaType = createMediaType(EBook, 20.5);
-        target.addMediaType(mediaType);
-        var mediaExemplar = createMediaExemplar(author, mediaItem, LocalDate.now(), "Deutsch", "HTL Leonding", false, true, mediaType);
-        var mediaExmpId = target.addMediaExemplar(mediaExemplar);
-
-        var check = target.getMediaExemplarById(mediaExmpId);
-
-        Assertions.assertTrue(check.isForReant());
     }
 
     @Test
@@ -162,6 +110,12 @@ class LibraryMgmtLogicTest {
         Assertions.fail("Not implemented yet");
     }
 
+    @Test
+    @TestTransaction
+    public void addEBookWithOneAuthor_makeRentable_canBeRented()
+    {
+        Assertions.fail("Not implemented yet");
+    }
 
     @Test
     @TestTransaction
