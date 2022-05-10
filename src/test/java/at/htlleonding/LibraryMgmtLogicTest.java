@@ -1,9 +1,8 @@
 package at.htlleonding;
 
 import at.htlleonding.logic.LibraryLogic;
-import at.htlleonding.persistence.entities.Customer;
+import at.htlleonding.persistence.entities.Genre;
 import at.htlleonding.persistence.entities.MediaExemplar;
-import at.htlleonding.persistence.entities.MediaItem;
 import at.htlleonding.persistence.models.*;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
@@ -44,12 +43,14 @@ class LibraryMgmtLogicTest {
         return result;
     }
 
-    private MediaExemplarModel createMediaExemplar(MediaItemModel item, LocalDate buyDate, String language, String publisherName, boolean forSale) {
+    private MediaExemplarModel createMediaExemplar(MediaItemModel item, LocalDate buyDate, String language, String publisherName, boolean forSale, boolean forRent) {
         var result = new MediaExemplarModel();
 
         result.setMediaItem(item);
         result.setBuyDate(buyDate);
         result.setForSale(forSale);
+        result.setForRent(forRent);
+
         var pub = new PublisherModel();
         pub.setName(publisherName);
 
@@ -72,11 +73,13 @@ class LibraryMgmtLogicTest {
     {
         var mediaItem = createMediaItem("1984", "dystopian", new String[] {"idktopic"});
         target.addMediaItem(mediaItem);
-        var mediaExemplar = createMediaExemplar(mediaItem, LocalDate.now(), "Deutsch", "HTL Leonding", false);
-        //Further implement test
+        var mediaExemplar = createMediaExemplar(mediaItem, LocalDate.now(), "Deutsch", "HTL Leonding", false, true);
 
+        var meId = target.addMediaExemplar(mediaExemplar);
 
-        Assertions.fail("Not fully implemented yet");
+        //Check if rentable
+        var actual = target.isMediaExemplarRentable(meId);
+        Assertions.assertTrue(actual);
     }
 
     @Test
@@ -145,8 +148,6 @@ class LibraryMgmtLogicTest {
         Assertions.assertNotNull(checkC);
         Assertions.assertEquals("Marcel", checkC.getFirstName());
         Assertions.assertEquals("Davis", checkC.getLastName());
-
-
     }
 
     @Test
@@ -250,11 +251,21 @@ class LibraryMgmtLogicTest {
       - Sell some items of multiple books.
      */
     @Test
-    @TestTransaction
+    @Transactional
     public void setItemForSale_cannotBeRented()
     {
+        GenreModel g = new GenreModel();
+        g.setKeyword("Fictional");
 
-        Assertions.fail("Not implemented yet");
+        MediaItemModel model = new MediaItemModel();
+        model.setGenre(g);
+        model.setTitle("Der Sacklschupfer im Lagerhaus");
+        var itemID = target.addMediaItem(model);
+
+        MediaExemplarModel exemplarModel = createMediaExemplar(model, LocalDate.now(), "English", "Sony", true, false);
+        var id = target.addMediaExemplar(exemplarModel);
+
+        Assertions.assertEquals(exemplarModel.isForRent(), false);
     }
 
     @Test

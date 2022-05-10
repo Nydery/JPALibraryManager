@@ -21,10 +21,12 @@ public class LibraryLogic {
 
     ModelMapper mapper = new ModelMapper();
 
+    @Transactional
     public void flushAndClear() {
         repository.flushAndClear();
     }
 
+    @Transactional
     public Long addAuthor(AuthorModel authorModel) {
         var authorDB = mapper.map(authorModel, Author.class);
         var result = repository.add(authorDB);
@@ -32,7 +34,13 @@ public class LibraryLogic {
         return result.getId();
     }
 
+    @Transactional
     public Long addMediaExemplar(MediaExemplarModel exemplarModel) {
+        //Add reference objects to db first
+        addMediaItem(exemplarModel.getMediaItem());
+        addLanguage(exemplarModel.getLanguage());
+        addPublisher(exemplarModel.getPublisher());
+
         var mediaExemplarDB = mapper.map(exemplarModel, MediaExemplar.class);
         var result =  repository.add(mediaExemplarDB);
 
@@ -47,6 +55,7 @@ public class LibraryLogic {
         return result.getId();
     }
 
+    @Transactional
     public Long addEmployee(EmployeeModel employeeModel){
         var employeeDB = mapper.map(employeeModel, Employee.class);
         var result =  repository.add(employeeDB);
@@ -54,6 +63,7 @@ public class LibraryLogic {
         return result.getId();
     }
 
+    @Transactional
     public Long addGenre(GenreModel genreModel){
         var genreDB = mapper.map(genreModel, Genre.class);
         var result =  repository.add(genreDB);
@@ -61,6 +71,7 @@ public class LibraryLogic {
         return result.getId();
     }
 
+    @Transactional
     public Long addLanguage(LanguageModel languageModel){
         var languageDB = mapper.map(languageModel, Language.class);
         var result =  repository.add(languageDB);
@@ -68,13 +79,18 @@ public class LibraryLogic {
         return result.getId();
     }
 
+    @Transactional
     public Long addMediaItem(MediaItemModel mediaItemModel){
+        //Add reference objects to db first
+        addGenre(mediaItemModel.getGenre());
+
         var mediaItemDB = mapper.map(mediaItemModel, MediaItem.class);
         var result =  repository.add(mediaItemDB);
 
         return result.getId();
     }
 
+    @Transactional
     public Long addMediaType(MediaTypeModel mediaTypeModel){
         var mediaTypeDB = mapper.map(mediaTypeModel, MediaType.class);
         var result =  repository.add(mediaTypeDB);
@@ -82,12 +98,58 @@ public class LibraryLogic {
         return result.getId();
     }
 
-    public Long addPerson(PersonModel personModel){
-        var personDB = mapper.map(personModel, Person.class);
-        var result =  repository.add(personDB);
+    @Transactional
+    public Long addPublisher(PublisherModel publisherModel) {
+        var publisherDB = mapper.map(publisherModel, Publisher.class);
+        var result =  repository.add(publisherDB);
 
         return result.getId();
     }
+
+    @Transactional
+    public Long addReceipt(ReceiptModel receiptModel){
+        addCustomer(receiptModel.getCustomer());
+        addEmployee(receiptModel.getEmployee());
+
+        var receiptDB = mapper.map(receiptModel, Receipt.class);
+        var result =  repository.add(receiptDB);
+
+        return result.getId();
+    }
+
+    @Transactional
+    public Long addReservation(ReservationModel reservationModel){
+        addCustomer(reservationModel.getCustomer());
+        addEmployee(reservationModel.getEmployee());
+
+        var reservationDB = mapper.map(reservationModel, Reservation.class);
+        var result =  repository.add(reservationDB);
+
+        return result.getId();
+    }
+
+    @Transactional
+    public Long addSale(SaleModel saleModel){
+        addReceipt(saleModel.getReceipt());
+
+        var saleDB = mapper.map(saleModel, Sale.class);
+        var result =  repository.add(saleDB);
+
+        return result.getId();
+    }
+
+    @Transactional
+    public Long addTopic(TopicModel topicModel){
+        var topicDB = mapper.map(topicModel, Topic.class);
+        var result =  repository.add(topicDB);
+
+        return result.getId();
+    }
+
+    //-------------------------------------------------------
+    // Get by Id methods
+    //-------------------------------------------------------
+
 
     public CustomerModel getCustomerById(long id){
         //var temp = repository.getById(Customer.class, id);
@@ -104,40 +166,16 @@ public class LibraryLogic {
         return model;
     }
 
-    public Long addPublisher(PublisherModel publisherModel) {
-        var publisherDB = mapper.map(publisherModel, Publisher.class);
-        var result =  repository.add(publisherDB);
 
-        return result.getId();
+    //-------------------------------------------------------
+    // Special methods
+    //-------------------------------------------------------
+
+    public boolean isMediaExemplarRentable(long mediaExemplarId) {
+        var ientity = repository.getById(MediaExemplar.class, mediaExemplarId);
+        var result = (MediaExemplar)ientity;
+
+        return result.isForRent();
     }
-
-    public Long addReceipt(ReceiptModel receiptModel){
-        var receiptDB = mapper.map(receiptModel, Receipt.class);
-        var result =  repository.add(receiptDB);
-
-        return result.getId();
-    }
-
-    public Long addReservation(ReservationModel reservationModel){
-        var reservationDB = mapper.map(reservationModel, Reservation.class);
-        var result =  repository.add(reservationDB);
-
-        return result.getId();
-    }
-
-    public Long addSale(SaleModel saleModel){
-        var saleDB = mapper.map(saleModel, Sale.class);
-        var result =  repository.add(saleDB);
-
-        return result.getId();
-    }
-
-    public Long addTopic(TopicModel topicModel){
-        var topicDB = mapper.map(topicModel, Topic.class);
-        var result =  repository.add(topicDB);
-
-        return result.getId();
-    }
-
 
 }

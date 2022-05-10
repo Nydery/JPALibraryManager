@@ -2,7 +2,6 @@ package at.htlleonding.persistence.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Set;
 
 @Entity
 public class MediaExemplar extends IdentityEntity {
