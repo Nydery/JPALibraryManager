@@ -48,7 +48,7 @@ public class LibraryLogic {
     }
 
     public Long addEmployee(EmployeeModel employeeModel){
-        var employeeDB = mapper.map(employeeModel, Customer.class);
+        var employeeDB = mapper.map(employeeModel, Employee.class);
         var result =  repository.add(employeeDB);
 
         return result.getId();
