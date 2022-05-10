@@ -1,6 +1,8 @@
 package at.htlleonding;
 
 import at.htlleonding.logic.LibraryLogic;
+import at.htlleonding.persistence.entities.Genre;
+import at.htlleonding.persistence.entities.MediaExemplar;
 import at.htlleonding.persistence.models.*;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
@@ -8,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 
 @QuarkusTest
@@ -248,11 +251,21 @@ class LibraryMgmtLogicTest {
       - Sell some items of multiple books.
      */
     @Test
-    @TestTransaction
+    @Transactional
     public void setItemForSale_cannotBeRented()
     {
+        GenreModel g = new GenreModel();
+        g.setKeyword("Fictional");
 
-        Assertions.fail("Not implemented yet");
+        MediaItemModel model = new MediaItemModel();
+        model.setGenre(g);
+        model.setTitle("Der Sacklschupfer im Lagerhaus");
+        var itemID = target.addMediaItem(model);
+
+        MediaExemplarModel exemplarModel = createMediaExemplar(model, LocalDate.now(), "English", "Sony", true, false);
+        var id = target.addMediaExemplar(exemplarModel);
+
+        Assertions.assertEquals(exemplarModel.isForRent(), false);
     }
 
     @Test
