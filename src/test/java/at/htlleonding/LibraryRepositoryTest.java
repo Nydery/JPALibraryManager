@@ -4,9 +4,11 @@ import at.htlleonding.persistence.LibraryRepository;
 import at.htlleonding.persistence.entities.*;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -108,7 +110,6 @@ public class LibraryRepositoryTest {
         Assertions.assertEquals(2, actualItem.getAuthors().size());
     }
 
-
     @Test
     @TestTransaction
     public void addMediaExemplarBook_ofMediaItem_Expect1ExemplarInDb(){
@@ -150,5 +151,25 @@ public class LibraryRepositoryTest {
         Assertions.assertNotNull(pubAfter);
     }
 
-    //Further testing - min. 2 per method in repository
+    @Test
+    @TestTransaction
+    public void removeEntity_checkIfExists(){
+        var pub = new Publisher();
+        pub.setName("Google Inc.");
+
+        repository.add(pub);
+
+        var pubId = pub.getId();
+        Assertions.assertNotEquals(0, pubId);
+
+        var pubAfterAdd = repository.getById(Publisher.class, pubId);
+        Assertions.assertNotNull(pubAfterAdd);
+
+        Assertions.assertThrows(NoResultException.class, () -> {
+            repository.remove(pub);
+            var pubAfterRemove = repository.getById(Publisher.class, pubId);
+        });
+    }
+
+
 }
