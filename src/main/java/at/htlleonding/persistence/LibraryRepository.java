@@ -51,6 +51,11 @@ public class LibraryRepository {
      */
     public <T extends IEntity> T findOrInsert(T e) {
         Class c = e.getClass();
+
+        if(e.getId() != 0)
+            return (T)getById(c, e.getId());
+
+
         var cb = entityManager.getCriteriaBuilder();
         var cq = cb.createQuery(c);
         var root = cq.from(c);
