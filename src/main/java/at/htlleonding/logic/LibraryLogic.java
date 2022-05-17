@@ -18,13 +18,18 @@ import javax.transaction.Transactional;
 public class LibraryLogic {
     @Inject
     LibraryRepository repository;
-
     ModelMapper mapper = new ModelMapper();
 
-    @Transactional
+
     public void flushAndClear() {
         repository.flushAndClear();
     }
+
+    private <T extends IEntity> T addEntity(T entity) {
+        return (T) repository.add(entity);
+    }
+
+
 
     @Transactional
     public Long addAuthor(AuthorModel authorModel) {
@@ -36,14 +41,16 @@ public class LibraryLogic {
 
     @Transactional
     public Long addMediaExemplar(MediaExemplarModel exemplarModel) {
-        //Add reference objects to db first (TODO: switch order of mapping and persisting, bc modelmapper creates new entities...)
-        addMediaItem(exemplarModel.getMediaItem());
-        addLanguage(exemplarModel.getLanguage());
-        addPublisher(exemplarModel.getPublisher());
-
         var mediaExemplarDB = mapper.map(exemplarModel, MediaExemplar.class);
-        var result =  repository.add(mediaExemplarDB);
 
+        //Add reference objects to db first (TODO: switch order of mapping and persisting, bc modelmapper creates new entities...)
+
+        //addEntity(mediaExemplarDB.getMediaItem());
+        //addLanguage(exemplarModel.getLanguage());
+        //addPublisher(exemplarModel.getPublisher());
+
+
+        var result =  repository.add(mediaExemplarDB);
         return result.getId();
     }
 
@@ -82,7 +89,7 @@ public class LibraryLogic {
     @Transactional
     public Long addMediaItem(MediaItemModel mediaItemModel){
         //Add reference objects to db first
-        addGenre(mediaItemModel.getGenre());
+        //addGenre(mediaItemModel.getGenre());
 
         var mediaItemDB = mapper.map(mediaItemModel, MediaItem.class);
         var result =  repository.add(mediaItemDB);
@@ -108,8 +115,8 @@ public class LibraryLogic {
 
     @Transactional
     public Long addReceipt(ReceiptModel receiptModel){
-        addCustomer(receiptModel.getCustomer());
-        addEmployee(receiptModel.getEmployee());
+        //addCustomer(receiptModel.getCustomer());
+        //addEmployee(receiptModel.getEmployee());
 
         var receiptDB = mapper.map(receiptModel, Receipt.class);
         var result =  repository.add(receiptDB);
@@ -119,8 +126,8 @@ public class LibraryLogic {
 
     @Transactional
     public Long addReservation(ReservationModel reservationModel){
-        addCustomer(reservationModel.getCustomer());
-        addEmployee(reservationModel.getEmployee());
+        //addCustomer(reservationModel.getCustomer());
+        //addEmployee(reservationModel.getEmployee());
 
         var reservationDB = mapper.map(reservationModel, Reservation.class);
         var result =  repository.add(reservationDB);
@@ -130,7 +137,7 @@ public class LibraryLogic {
 
     @Transactional
     public Long addSale(SaleModel saleModel){
-        addReceipt(saleModel.getReceipt());
+        //addReceipt(saleModel.getReceipt());
 
         var saleDB = mapper.map(saleModel, Sale.class);
         var result =  repository.add(saleDB);
