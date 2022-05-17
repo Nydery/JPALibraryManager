@@ -1,5 +1,7 @@
 package at.htlleonding.persistence.entities;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +28,7 @@ public class MediaItem extends IdentityEntity{
     private Set<Author> authors = new HashSet<>();
 
     @ManyToOne
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private Genre genre;
 
     // ----------------

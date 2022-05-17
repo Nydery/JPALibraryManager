@@ -1,6 +1,8 @@
 package at.htlleonding.persistence.entities;
 
 import at.htlleonding.persistence.enums.MediaTypes;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;

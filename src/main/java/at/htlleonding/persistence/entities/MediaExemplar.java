@@ -1,5 +1,7 @@
 package at.htlleonding.persistence.entities;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -11,15 +13,19 @@ public class MediaExemplar extends IdentityEntity {
     private boolean isSold = false;
 
     @ManyToOne
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private MediaItem mediaItem;
 
     @ManyToOne
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private Language language;
 
     @ManyToOne
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private Publisher publisher;
 
     @ManyToOne
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private MediaType mediaType;
 
     /*

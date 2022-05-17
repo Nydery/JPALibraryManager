@@ -1,5 +1,7 @@
 package at.htlleonding.persistence.entities;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import javax.print.attribute.standard.Media;
 import java.util.HashSet;
@@ -26,7 +28,6 @@ public class Genre extends IdentityEntity {
     public String getKeyword() {
         return keyword;
     }
-
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
