@@ -87,11 +87,12 @@ class LibraryMgmtLogicTest {
         var eAuthor = target.getAuthorById(author1Id);
         mediaItem.getAuthors().add(eAuthor);
 
-
+        //push / update entity NOT MODELL!!!!!L!ÜO!)=Z§=T!Z$FUCK - I HATE THIS ...REALLY
 
         var mediaExemplar =
                 createMediaExemplar(mediaItem, LocalDate.now(), "Deutsch", "HTL Leonding", false, true);
 
+        //Modelmapper in addMediaExemplar() doesnt map Hashmap of authormodels to hashmap of authors => authors get lost: HOW DO WE FIX THIS??? HELP
         var meId = target.addMediaExemplar(mediaExemplar);
 
         //Check if 1 author is set
