@@ -25,17 +25,11 @@ public class LibraryLogic {
         repository.flushAndClear();
     }
 
-    private <T extends IEntity> T addEntity(T entity) {
-        return (T) repository.add(entity);
-    }
-
-
-
     @Transactional
     public Long addAuthor(AuthorModel authorModel) {
         var authorDB = mapper.map(authorModel, Author.class);
         var result = repository.add(authorDB);
-        
+
         return result.getId();
     }
 
@@ -43,12 +37,14 @@ public class LibraryLogic {
     public Long addMediaExemplar(MediaExemplarModel exemplarModel) {
         var mediaExemplarDB = mapper.map(exemplarModel, MediaExemplar.class);
 
-        //Add reference objects to db first (TODO: switch order of mapping and persisting, bc modelmapper creates new entities...)
+        //Denkfehler: Mediaitem also contains other entity references... (Maybe call addMediaItem(MediaItem item) to findOrInsert underlying other entities??)
+        var mediaItem = repository.findOrInsert(mediaExemplarDB.getMediaItem());
+        var language = repository.findOrInsert(mediaExemplarDB.getLanguage());
+        var publisher = repository.findOrInsert((mediaExemplarDB.getPublisher()));
 
-        //addEntity(mediaExemplarDB.getMediaItem());
-        //addLanguage(exemplarModel.getLanguage());
-        //addPublisher(exemplarModel.getPublisher());
-
+        mediaExemplarDB.setMediaItem(mediaItem);
+        mediaExemplarDB.setLanguage(language);
+        mediaExemplarDB.setPublisher(publisher);
 
         var result =  repository.add(mediaExemplarDB);
         return result.getId();
@@ -89,9 +85,11 @@ public class LibraryLogic {
     @Transactional
     public Long addMediaItem(MediaItemModel mediaItemModel){
         //Add reference objects to db first
-        //addGenre(mediaItemModel.getGenre());
-
         var mediaItemDB = mapper.map(mediaItemModel, MediaItem.class);
+
+        var genre = repository.findOrInsert(mediaItemDB.getGenre());
+        mediaItemDB.setGenre(genre);
+
         var result =  repository.add(mediaItemDB);
 
         return result.getId();
@@ -115,10 +113,13 @@ public class LibraryLogic {
 
     @Transactional
     public Long addReceipt(ReceiptModel receiptModel){
-        //addCustomer(receiptModel.getCustomer());
-        //addEmployee(receiptModel.getEmployee());
-
         var receiptDB = mapper.map(receiptModel, Receipt.class);
+
+        var customer = repository.findOrInsert(receiptDB.getCustomer());
+        var employee = repository.findOrInsert(receiptDB.getEmployee());
+        receiptDB.setCustomer(customer);
+        receiptDB.setEmployee(employee);
+
         var result =  repository.add(receiptDB);
 
         return result.getId();
@@ -161,16 +162,28 @@ public class LibraryLogic {
     public CustomerModel getCustomerById(long id){
         //var temp = repository.getById(Customer.class, id);
         Customer cust = (Customer) repository.getById(Customer.class, id);
-        CustomerModel model = new CustomerModel();
-        mapper.map(cust, model);
-        return model;
+        return mapper.map(cust, CustomerModel.class);
     }
 
     public EmployeeModel getEmployeeById(long id){
         Employee emp = (Employee) repository.getById(Employee.class, id);
-        EmployeeModel model = new EmployeeModel();
-        mapper.map(emp, model);
-        return model;
+        return mapper.map(emp, EmployeeModel.class);
+    }
+
+    public AuthorModel getAuthorById(long id) {
+        Author a = (Author) repository.getById(Author.class, id);
+        var result = mapper.map (a, AuthorModel.class);
+        return result;
+    }
+
+    public MediaExemplarModel getMediaExemplarById(long id) {
+        MediaExemplar me = (MediaExemplar) repository.getById(MediaExemplar.class, id);
+        return mapper.map(me, MediaExemplarModel.class);
+    }
+
+    public MediaItemModel getMediaItemById(long id) {
+        MediaItem mi = (MediaItem) repository.getById(MediaItem.class, id);
+        return mapper.map(mi, MediaItemModel.class);
     }
 
 
