@@ -25,6 +25,15 @@ public class LibraryLogic {
         repository.flushAndClear();
     }
 
+    public <T extends IEntity> T updateEntity(T entity) {
+        return (T) repository.update(entity);
+    }
+
+
+    //-------------------------------------------------------
+    // Add methods
+    //-------------------------------------------------------
+
     @Transactional
     public Long addAuthor(AuthorModel authorModel) {
         var authorDB = mapper.map(authorModel, Author.class);
