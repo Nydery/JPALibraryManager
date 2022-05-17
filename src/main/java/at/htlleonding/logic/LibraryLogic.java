@@ -47,13 +47,13 @@ public class LibraryLogic {
         var mediaExemplarDB = mapper.map(exemplarModel, MediaExemplar.class);
 
         //Denkfehler: Mediaitem also contains other entity references... (Maybe call addMediaItem(MediaItem item) to findOrInsert underlying other entities??)
-        var mediaItem = repository.findOrInsert(mediaExemplarDB.getMediaItem());
-        var language = repository.findOrInsert(mediaExemplarDB.getLanguage());
-        var publisher = repository.findOrInsert((mediaExemplarDB.getPublisher()));
+        var mediaItemId = addMediaItem(mapper.map(mediaExemplarDB.getMediaItem(), MediaItemModel.class));
+        var languageId = addLanguage(mapper.map(mediaExemplarDB.getLanguage(), LanguageModel.class));
+        var publisherId = addPublisher(mapper.map(mediaExemplarDB.getPublisher(), PublisherModel.class));
 
-        mediaExemplarDB.setMediaItem(mediaItem);
-        mediaExemplarDB.setLanguage(language);
-        mediaExemplarDB.setPublisher(publisher);
+        mediaExemplarDB.setMediaItem((MediaItem) repository.getById(MediaItem.class, mediaItemId));
+        mediaExemplarDB.setLanguage((Language) repository.getById(Language.class, languageId));
+        mediaExemplarDB.setPublisher((Publisher) repository.getById(Publisher.class, publisherId));
 
         var result =  repository.add(mediaExemplarDB);
         return result.getId();
@@ -96,8 +96,8 @@ public class LibraryLogic {
         //Add reference objects to db first
         var mediaItemDB = mapper.map(mediaItemModel, MediaItem.class);
 
-        var genre = repository.findOrInsert(mediaItemDB.getGenre());
-        mediaItemDB.setGenre(genre);
+        var genreId = addGenre(mapper.map(mediaItemDB.getGenre(), GenreModel.class));
+        mediaItemDB.setGenre((Genre) repository.getById(Genre.class, genreId));
 
         var result =  repository.add(mediaItemDB);
 
@@ -124,34 +124,41 @@ public class LibraryLogic {
     public Long addReceipt(ReceiptModel receiptModel){
         var receiptDB = mapper.map(receiptModel, Receipt.class);
 
-        var customer = repository.findOrInsert(receiptDB.getCustomer());
-        var employee = repository.findOrInsert(receiptDB.getEmployee());
-        receiptDB.setCustomer(customer);
-        receiptDB.setEmployee(employee);
+        var customerId = addCustomer(mapper.map(receiptDB.getCustomer(), CustomerModel.class));
+        var employeeId = addEmployee(mapper.map(receiptDB.getEmployee(), EmployeeModel.class));
+
+        receiptDB.setCustomer((Customer) repository.getById(Customer.class, customerId));
+        receiptDB.setEmployee((Employee) repository.getById(Employee.class, employeeId));
 
         var result =  repository.add(receiptDB);
-
         return result.getId();
     }
 
     @Transactional
     public Long addReservation(ReservationModel reservationModel){
-        //addCustomer(reservationModel.getCustomer());
-        //addEmployee(reservationModel.getEmployee());
-
         var reservationDB = mapper.map(reservationModel, Reservation.class);
-        var result =  repository.add(reservationDB);
 
+        var customerId = addCustomer(mapper.map(reservationDB.getCustomer(), CustomerModel.class));
+        var employeeId = addEmployee(mapper.map(reservationDB.getEmployee(), EmployeeModel.class));
+
+        reservationDB.setCustomer((Customer) repository.getById(Customer.class, customerId));
+        reservationDB.setEmployee((Employee) repository.getById(Employee.class, employeeId));
+
+        var result =  repository.add(reservationDB);
         return result.getId();
     }
 
     @Transactional
     public Long addSale(SaleModel saleModel){
-        //addReceipt(saleModel.getReceipt());
-
         var saleDB = mapper.map(saleModel, Sale.class);
-        var result =  repository.add(saleDB);
 
+        var mediaExemplarId = addMediaExemplar(mapper.map(saleDB.getMediaExemplar(), MediaExemplarModel.class));
+        var receiptId = addReceipt(mapper.map(saleDB.getReceipt(), ReceiptModel.class));
+
+        saleDB.setMediaExemplar((MediaExemplar) repository.getById(MediaExemplar.class, mediaExemplarId));
+        saleDB.setReceipt((Receipt) repository.getById(Receipt.class, receiptId));
+
+        var result =  repository.add(saleDB);
         return result.getId();
     }
 
