@@ -1,5 +1,6 @@
 package at.htlleonding.persistence.entities;
 
+import at.htlleonding.misc.BusinessKey;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Set;
 @Entity
 public class Language extends IdentityEntity{
     @Column(length = 256, nullable = false)
+    @BusinessKey
     private String keyword;
 
     @OneToMany(mappedBy = "language")

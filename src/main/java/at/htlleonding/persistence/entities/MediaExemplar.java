@@ -1,5 +1,6 @@
 package at.htlleonding.persistence.entities;
 
+import at.htlleonding.misc.BusinessKey;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -7,9 +8,13 @@ import java.time.LocalDate;
 
 @Entity
 public class MediaExemplar extends IdentityEntity {
+    @BusinessKey
     private LocalDate buyDate;
+    @BusinessKey
     private boolean forRent = false;
+    @BusinessKey
     private boolean forSale = false;
+    @BusinessKey
     private boolean isSold = false;
 
     @ManyToOne

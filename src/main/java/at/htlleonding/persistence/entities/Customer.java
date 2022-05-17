@@ -1,5 +1,7 @@
 package at.htlleonding.persistence.entities;
 
+import at.htlleonding.misc.BusinessKey;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -7,9 +9,13 @@ import javax.persistence.Entity;
 public class Customer extends Person {
     @Column(nullable = false)
     private boolean isEmployee;
+
     @Column(nullable = false)
+    @BusinessKey
     private String email;
+
     @Column(nullable = false)
+    @BusinessKey
     private String phoneNumber;
 
     public boolean isEmployee() {
