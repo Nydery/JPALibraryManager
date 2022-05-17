@@ -72,7 +72,7 @@ class LibraryMgmtLogicTest {
     public void addPaperBookWithOneAuthor_makeRentable_canBeRented()
     {
         var mediaItem = createMediaItem("1984", "dystopian", new String[] {"idktopic"});
-        //target.addMediaItem(mediaItem);
+        target.addMediaItem(mediaItem);
         var mediaExemplar = createMediaExemplar(mediaItem, LocalDate.now(), "Deutsch", "HTL Leonding", false, true);
 
         var meId = target.addMediaExemplar(mediaExemplar);
