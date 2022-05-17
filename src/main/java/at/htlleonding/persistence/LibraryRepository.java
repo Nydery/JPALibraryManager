@@ -1,14 +1,19 @@
 package at.htlleonding.persistence;
 ///home/peter/src/dbi4/quarkus-hibernate-cmdline
 
+import at.htlleonding.misc.BusinessKey;
 import at.htlleonding.persistence.entities.*;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 
 // @Transactional
@@ -36,8 +41,49 @@ public class LibraryRepository {
         if (entity == null)
             throw new IllegalArgumentException("entity");
 
-        entityManager.persist(entity);
-        return entity;
+        return findOrInsert(entity);
+    }
+
+    /*
+      Given an Entity with BusinessKey-annotated fields,
+      tries to find a matching entity in the DB.
+      If found, it returns this entity, otherwise it persists the given entity and returns it.
+     */
+    public <T extends IEntity> T findOrInsert(T e) {
+        Class c = e.getClass();
+        var cb = entityManager.getCriteriaBuilder();
+        var cq = cb.createQuery(c);
+        var root = cq.from(c);
+
+        var fields = c.getDeclaredFields();
+        List<Predicate> predicates = new ArrayList<>();
+
+        for (Field f : fields) {
+            try {
+                if (f.getAnnotation(BusinessKey.class) != null) {
+                    f.setAccessible(true);
+                    var n = f.getName();
+                    var v = f.get(e);
+                    var p = cb.equal(root.get(n), v);
+                    predicates.add(p);
+                }
+            }
+            catch (IllegalAccessException iae) {
+            }
+        }
+
+        var q = cq.select(root).where(predicates.toArray(Predicate[]::new));
+        var qq = entityManager.createQuery(q);
+        T dbEntity = null;
+        try {
+            dbEntity = (T) qq.getSingleResult();
+        }
+        catch(NoResultException nre){
+            entityManager.persist(e);
+            dbEntity = e;
+        }
+
+        return dbEntity;
     }
 
     @Transactional
@@ -63,7 +109,7 @@ public class LibraryRepository {
                 .getSingleResult();
     }
 
-    @Transactional
+
     public void flushAndClear() {
         entityManager.flush();
         entityManager.clear();
