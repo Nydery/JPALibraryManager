@@ -44,6 +44,14 @@ public class LibraryRepository {
         return findOrInsert(entity);
     }
 
+    @Transactional
+    public IEntity update(IEntity entity) {
+        if (entity == null)
+            throw new IllegalArgumentException("entity");
+
+        return entityManager.merge(entity);
+    }
+
     /*
       Given an Entity with BusinessKey-annotated fields,
       tries to find a matching entity in the DB.
