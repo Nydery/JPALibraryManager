@@ -123,14 +123,14 @@ public class LibraryRepository {
                 .getSingleResult();
     }
 
-
     public void flushAndClear() {
         entityManager.flush();
         entityManager.clear();
     }
 
-    //----------------------------
-    //Special adds
+    //-------------------------------------------------------
+    // Special adds
+    //-------------------------------------------------------
 
     //MediaItem
     @Transactional
@@ -157,7 +157,12 @@ public class LibraryRepository {
         entityManager.persist(item);
     }
 
-    //Special getters
+    //ToDo: Add missing methods for all relations between entities:
+    //....
+
+    //-------------------------------------------------------
+    // Special getters
+    //-------------------------------------------------------
     public Genre getGenreByKeyword(String keyword) {
         var result = entityManager.createQuery("select g from Genre g where g.keyword = :key")
                 .setParameter("key", keyword)
@@ -166,4 +171,5 @@ public class LibraryRepository {
 
 
     }
+    //ToDo: Add missing queries for various entities
 }
