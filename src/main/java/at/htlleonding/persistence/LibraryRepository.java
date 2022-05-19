@@ -28,18 +28,20 @@ public class LibraryRepository {
     EntityManager entityManager;
 
 
+    //-------------------------------------------------------
+    // "Generic" / Polymorph methods add/remove/update/getAll/getById etc.
+    //-------------------------------------------------------
+
     @Transactional
     public IEntity add(IEntity entity) {
-        if (entity == null)
-            throw new IllegalArgumentException("entity");
+        Common.checkArgument(entity, "entity");
 
         return findOrInsert(entity);
     }
 
     @Transactional
     public IEntity update(IEntity entity) {
-        if (entity == null)
-            throw new IllegalArgumentException("entity");
+        Common.checkArgument(entity, "entity");
 
         return entityManager.merge(entity);
     }
@@ -93,8 +95,7 @@ public class LibraryRepository {
 
     @Transactional
     public void remove (IEntity entity) {
-        if (entity == null)
-            throw new IllegalArgumentException("entity");
+        Common.checkArgument(entity, "entity");
 
         entityManager.remove(entity);
     }
@@ -126,10 +127,8 @@ public class LibraryRepository {
     //MediaItem
     @Transactional
     public void add(MediaItem item, Author author) {
-        if(item == null)
-            throw new IllegalArgumentException("item");
-        else if(author == null)
-            throw new IllegalArgumentException("author");
+        Common.checkArgument(item, "item");
+        Common.checkArgument(author, "author");
 
         item.getAuthors().add(author);
         author.getMediaItems().add(item);
@@ -139,10 +138,10 @@ public class LibraryRepository {
 
     @Transactional
     public void add(MediaItem item, Topic topic) {
-        if(item == null)
-            throw new IllegalArgumentException("item");
-        else if (topic == null)
-            throw new IllegalArgumentException("topic");
+        Common.checkArgument(item, "item");
+        Common.checkArgument(topic, "topic");
+
+        //find or insert topic
 
         item.getTopics().add(topic);
         topic.getMediaItems().add(item);
