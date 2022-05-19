@@ -168,42 +168,73 @@ public class LibraryLogic {
     // Get by Id methods
     //-------------------------------------------------------
 
-
-    public CustomerModel getCustomerById(long id){
-        //var temp = repository.getById(Customer.class, id);
-        Customer cust = (Customer) repository.getById(Customer.class, id);
-        return mapper.map(cust, CustomerModel.class);
-    }
-
-    public EmployeeModel getEmployeeById(long id){
-        Employee emp = (Employee) repository.getById(Employee.class, id);
-        return mapper.map(emp, EmployeeModel.class);
-    }
-
     public AuthorModel getAuthorById(long id) {
         Author a = (Author) repository.getById(Author.class, id);
         var result = mapper.map (a, AuthorModel.class);
         return result;
     }
-
+    public CustomerModel getCustomerById(long id){
+        //var temp = repository.getById(Customer.class, id);
+        Customer cust = (Customer) repository.getById(Customer.class, id);
+        return mapper.map(cust, CustomerModel.class);
+    }
+    public EmployeeModel getEmployeeById(long id){
+        Employee emp = (Employee) repository.getById(Employee.class, id);
+        return mapper.map(emp, EmployeeModel.class);
+    }
+    public GenreModel getGenreById(long id) {
+        Genre gen = (Genre) repository.getById(Genre.class, id);
+        return mapper.map(gen, GenreModel.class);
+    }
+    public LanguageModel getLanguageById(long id){
+        Language lan = (Language) repository.getById(Language.class, id);
+        return mapper.map(lan, LanguageModel.class);
+    }
     public MediaExemplarModel getMediaExemplarById(long id) {
         MediaExemplar me = (MediaExemplar) repository.getById(MediaExemplar.class, id);
         return mapper.map(me, MediaExemplarModel.class);
     }
-
     public MediaItemModel getMediaItemById(long id) {
         MediaItem mi = (MediaItem) repository.getById(MediaItem.class, id);
         return mapper.map(mi, MediaItemModel.class);
     }
-
+    public MediaTypeModel getMediaTypeById(long id) {
+        MediaType mt = (MediaType) repository.getById(MediaType.class, id);
+        return mapper.map(mt, MediaTypeModel.class);
+    }
+    public PublisherModel getPublisherById(long id) {
+        Publisher pub = (Publisher) repository.getById(Publisher.class, id);
+        return mapper.map(pub, PublisherModel.class);
+    }
+    public ReceiptModel getReceiptById(long id) {
+        Receipt rec = (Receipt) repository.getById(Receipt.class, id);
+        return mapper.map(rec, ReceiptModel.class);
+    }
+    public ReservationModel getReservationById(long id) {
+        Reservation res = (Reservation) repository.getById(Reservation.class, id);
+        return mapper.map(res, ReservationModel.class);
+    }
+    public SaleModel getSaleById(long id) {
+        Sale sale = (Sale) repository.getById(Sale.class, id);
+        return mapper.map(sale, SaleModel.class);
+    }
+    public TopicModel getTopicById(long id) {
+        Topic topic = (Topic) repository.getById(Topic.class, id);
+        return mapper.map(topic, TopicModel.class);
+    }
 
     //-------------------------------------------------------
-    // Special getters
+    // Special getters - by BusinessKey
     //-------------------------------------------------------
 
     public GenreModel getGenreByKeyword(String keyword) {
-        //var result = repository.
-        return null;
+        var result = repository.getGenreByKeyword(keyword);
+        return mapper.map(result, GenreModel.class);
+    }
+
+    public TopicModel getTopicByKeyword(String keyword) {
+        var result = repository.getTopicByKeyword(keyword);
+        return mapper.map(result, TopicModel.class);
     }
 
     //-------------------------------------------------------
@@ -216,5 +247,4 @@ public class LibraryLogic {
 
         return result.isForRent();
     }
-
 }
