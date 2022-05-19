@@ -138,10 +138,14 @@ public class LibraryRepository {
         Common.checkArgument(item, "item");
         Common.checkArgument(author, "author");
 
-        item.getAuthors().add(author);
-        author.getMediaItems().add(item);
+        //find or insert author
+        var _author = findOrInsert(author);
 
-        entityManager.persist(item);
+        item.getAuthors().add(_author);
+        _author.getMediaItems().add(item);
+
+        update(item);
+        update(_author);
     }
 
     @Transactional
@@ -150,11 +154,13 @@ public class LibraryRepository {
         Common.checkArgument(topic, "topic");
 
         //find or insert topic
+        var _topic = findOrInsert(topic);
 
-        item.getTopics().add(topic);
-        topic.getMediaItems().add(item);
+        item.getTopics().add(_topic);
+        _topic.getMediaItems().add(item);
 
-        entityManager.persist(item);
+        update(item);
+        update(_topic);
     }
 
     //ToDo: Add missing methods for all relations between entities:
@@ -163,13 +169,22 @@ public class LibraryRepository {
     //-------------------------------------------------------
     // Special getters
     //-------------------------------------------------------
+
     public Genre getGenreByKeyword(String keyword) {
         var result = entityManager.createQuery("select g from Genre g where g.keyword = :key")
                 .setParameter("key", keyword)
                 .getSingleResult();
-        return null;
 
-
+        return (Genre) result;
     }
+
+    public Topic getTopicByKeyword(String keyword) {
+        var result = entityManager.createQuery("select t from Topic t where t.keyword = :key")
+                .setParameter("key", keyword)
+                .getSingleResult();
+
+        return (Topic) result;
+    }
+
     //ToDo: Add missing queries for various entities
 }
