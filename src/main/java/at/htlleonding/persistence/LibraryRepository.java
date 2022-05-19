@@ -55,14 +55,22 @@ public class LibraryRepository {
         Class c = e.getClass();
 
         if(e.getId() != 0)
-            return (T)getById(c, e.getId());
+            return (T) getById(c, e.getId());
 
 
         var cb = entityManager.getCriteriaBuilder();
         var cq = cb.createQuery(c);
         var root = cq.from(c);
 
-        var fields = c.getDeclaredFields();
+        var fields = new ArrayList<Field>(List.of(c.getDeclaredFields()));
+
+        //Also include fields of superclasses
+        var currentClass = c.getSuperclass();
+        while(currentClass != null) {
+            fields.addAll(List.of(currentClass.getDeclaredFields()));
+            currentClass = currentClass.getSuperclass();
+        }
+
         List<Predicate> predicates = new ArrayList<>();
 
         for (Field f : fields) {
