@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 
 /*
  LibraryLogic: Interface to the library data. Provides an entity-free interface to the outside.
- Responisibilities: Takes data from outside (e.g. via strings) and creates or updates the entities in the repository
+ Responsibilities: Takes data from outside (e.g. via strings) and creates or updates the entities in the repository
  Collaborations: Uses LibraryRepository to persist and retrieve entities
  */
 @ApplicationScoped
