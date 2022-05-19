@@ -40,10 +40,10 @@ public class LibraryLogic {
     public Long addMediaExemplar(MediaExemplarModel exemplarModel) {
         var mediaExemplarDB = mapper.map(exemplarModel, MediaExemplar.class);
 
-        //Denkfehler: Mediaitem also contains other entity references... (Maybe call addMediaItem(MediaItem item) to findOrInsert underlying other entities??)
-        var mediaItemId = addMediaItem(mapper.map(mediaExemplarDB.getMediaItem(), MediaItemModel.class));
-        var languageId = addLanguage(mapper.map(mediaExemplarDB.getLanguage(), LanguageModel.class));
-        var publisherId = addPublisher(mapper.map(mediaExemplarDB.getPublisher(), PublisherModel.class));
+        //Perist relation objects (if they exist get them -> add..() calls findOrInsert()) before persisting model itself
+        var mediaItemId = addMediaItem(exemplarModel.getMediaItem());
+        var languageId = addLanguage(exemplarModel.getLanguage());
+        var publisherId = addPublisher(exemplarModel.getPublisher());
 
         mediaExemplarDB.setMediaItem((MediaItem) repository.getById(MediaItem.class, mediaItemId));
         mediaExemplarDB.setLanguage((Language) repository.getById(Language.class, languageId));
@@ -118,8 +118,8 @@ public class LibraryLogic {
     public Long addReceipt(ReceiptModel receiptModel){
         var receiptDB = mapper.map(receiptModel, Receipt.class);
 
-        var customerId = addCustomer(mapper.map(receiptDB.getCustomer(), CustomerModel.class));
-        var employeeId = addEmployee(mapper.map(receiptDB.getEmployee(), EmployeeModel.class));
+        var customerId = addCustomer(receiptModel.getCustomer());
+        var employeeId = addEmployee(receiptModel.getEmployee());
 
         receiptDB.setCustomer((Customer) repository.getById(Customer.class, customerId));
         receiptDB.setEmployee((Employee) repository.getById(Employee.class, employeeId));
@@ -132,8 +132,8 @@ public class LibraryLogic {
     public Long addReservation(ReservationModel reservationModel){
         var reservationDB = mapper.map(reservationModel, Reservation.class);
 
-        var customerId = addCustomer(mapper.map(reservationDB.getCustomer(), CustomerModel.class));
-        var employeeId = addEmployee(mapper.map(reservationDB.getEmployee(), EmployeeModel.class));
+        var customerId = addCustomer(reservationModel.getCustomer());
+        var employeeId = addEmployee(reservationModel.getEmployee());
 
         reservationDB.setCustomer((Customer) repository.getById(Customer.class, customerId));
         reservationDB.setEmployee((Employee) repository.getById(Employee.class, employeeId));
@@ -146,8 +146,8 @@ public class LibraryLogic {
     public Long addSale(SaleModel saleModel){
         var saleDB = mapper.map(saleModel, Sale.class);
 
-        var mediaExemplarId = addMediaExemplar(mapper.map(saleDB.getMediaExemplar(), MediaExemplarModel.class));
-        var receiptId = addReceipt(mapper.map(saleDB.getReceipt(), ReceiptModel.class));
+        var mediaExemplarId = addMediaExemplar(saleModel.getMediaExemplar());
+        var receiptId = addReceipt(saleModel.getReceipt());
 
         saleDB.setMediaExemplar((MediaExemplar) repository.getById(MediaExemplar.class, mediaExemplarId));
         saleDB.setReceipt((Receipt) repository.getById(Receipt.class, receiptId));
