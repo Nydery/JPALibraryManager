@@ -1,6 +1,6 @@
 package at.htlleonding.persistence;
-///home/peter/src/dbi4/quarkus-hibernate-cmdline
 
+import at.htlleonding.common.Common;
 import at.htlleonding.misc.BusinessKey;
 import at.htlleonding.persistence.entities.*;
 
@@ -15,14 +15,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
-
-// @Transactional
-// https://quarkus.io/guides/transaction
-// https://quarkus.io/guides/hibernate-orm
-// Mark your CDI bean method as @Transactional and the EntityManager will enlist and flush at commit.
-// Make sure to wrap methods modifying your database (e.g. entity.persist()) within a transaction.
-// Marking a CDI bean method @Transactional will do that for you and make that method a transaction boundary.
-// We recommend doing so at your application entry point boundaries like your REST endpoint controllers.
 
 /*
  LibraryRepository: Implements methods to work with entities.
