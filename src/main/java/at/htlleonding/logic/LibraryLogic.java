@@ -20,15 +20,9 @@ public class LibraryLogic {
     LibraryRepository repository;
     ModelMapper mapper = new ModelMapper();
 
-
     public void flushAndClear() {
         repository.flushAndClear();
     }
-
-    public <T extends IEntity> T updateEntity(T entity) {
-        return (T) repository.update(entity);
-    }
-
 
     //-------------------------------------------------------
     // Add methods
