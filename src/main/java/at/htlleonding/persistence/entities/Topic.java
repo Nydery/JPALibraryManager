@@ -1,5 +1,7 @@
 package at.htlleonding.persistence.entities;
 
+import at.htlleonding.misc.BusinessKey;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,6 +9,7 @@ import java.util.Set;
 @Entity
 public class Topic extends IdentityEntity {
     @Column(length = 256, nullable = false)
+    @BusinessKey
     private String keyword;
 
     @ManyToMany(mappedBy = "topics")
