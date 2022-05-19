@@ -4,7 +4,6 @@ import at.htlleonding.persistence.LibraryRepository;
 import at.htlleonding.persistence.entities.*;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import javax.inject.Inject;
@@ -17,7 +16,6 @@ public class LibraryRepositoryTest {
     @Inject
     LibraryRepository repository;
 
-    //@Transactional
     private Author[] createAuthors() {
         Author a1 = new Author();
         a1.setFirstName("George");
@@ -27,23 +25,16 @@ public class LibraryRepositoryTest {
         a2.setFirstName("Astred");
         a2.setLastName("Lindgren");
 
-        //repository.add(a1);
-        //repository.add(a2);
-
         return new Author[] {a1, a2};
     }
 
-    //@Transactional
     private Genre createGenre() {
         Genre g1 = new Genre();
         g1.setKeyword("Fantasy");
 
-        //repository.add(g1);
-
         return g1;
     }
 
-    //@Transactional
     private Topic[] createTopics() {
         Topic t1 = new Topic();
         t1.setKeyword("Philosophy");
@@ -67,12 +58,12 @@ public class LibraryRepositoryTest {
         return mediaItem;
     }
 
-    private MediaItem assembleMediaItem() {
-        var authors = createAuthors();
-        var topics = createTopics();
+    private MediaItem assembleMediaItem(String title, boolean withAuthors, boolean withTopics) {
+        var authors = withAuthors ? createAuthors() : new Author[0];
+        var topics = withTopics ? createTopics() : new Topic[0];
         var genre = createGenre();
 
-        return createMediaItem("1984", genre, authors, topics);
+        return createMediaItem(title, genre, authors, topics);
     }
 
     @Transactional
@@ -89,11 +80,17 @@ public class LibraryRepositoryTest {
     }
 
 
+    //-------------------------------------------------------
+    // Helper methods above
+    //
+    // Tests from here
+    //-------------------------------------------------------
+
     @Test
     @TestTransaction
     public void addMediaItem_With2Authors2Topics_Expect1ItemInDb() {
         //Create entities and assemble them into mediaitem
-        var mediaItem = assembleMediaItem();
+        var mediaItem = assembleMediaItem("1984", true, true);
 
         //persist entities
         persistMediaItem(mediaItem);
@@ -106,22 +103,21 @@ public class LibraryRepositoryTest {
 
         var actualItem = (MediaItem)mediaItems.get(0);
         Assertions.assertEquals("1984", actualItem.getTitle());
-
         Assertions.assertEquals(2, actualItem.getAuthors().size());
     }
 
     @Test
     @TestTransaction
     public void addMediaExemplarBook_ofMediaItem_Expect1ExemplarInDb(){
-        var mediaItem = assembleMediaItem();
+        var mediaItem = assembleMediaItem("Pipi Langstrumpf", true, true);
         persistMediaItem(mediaItem);
 
-
+        //var mediaExemplar = createMediaExemplar(mediaItem);
     }
 
     @Test
     @TestTransaction
-    public void getAllLanguages() {
+    public void add_twoLanguages_Expect2LanguagesAtGetAll() {
         var l1 = new Language();
         l1.setKeyword("Deutsch");
 
@@ -137,39 +133,68 @@ public class LibraryRepositoryTest {
 
     @Test
     @TestTransaction
-    public void addEntity_checkIfExists(){
+    public void add_PublisherAndGetByIdAgain_ExpectSameObjectAsInserted(){
         var pub = new Publisher();
         pub.setName("Google Inc.");
 
-        repository.add(pub);
+        var pubId = repository.add(pub).getId();
 
-        var pubId = pub.getId();
         Assertions.assertNotEquals(0, pubId);
 
-        var pubAfter = repository.getById(Publisher.class, pubId);
+        var pubAfter = (Publisher) repository.getById(Publisher.class, pubId);
 
         Assertions.assertNotNull(pubAfter);
+        Assertions.assertEquals(pub.getName(), pubAfter.getName());
     }
 
     @Test
     @TestTransaction
-    public void removeEntity_checkIfExists(){
+    public void addAndRemove_PublisherUsingGenericRepoMethods_ExpectNoEntityWithIdAfterRemove(){
         var pub = new Publisher();
         pub.setName("Google Inc.");
 
-        repository.add(pub);
-
-        var pubId = pub.getId();
+        //Insert into db
+        var pubId = repository.add(pub).getId();
         Assertions.assertNotEquals(0, pubId);
 
-        var pubAfterAdd = repository.getById(Publisher.class, pubId);
+        /* Commented out, because this is checked in another unit test
+
+        //Get by id and check if exists again
+        var pubAfterAdd = (Publisher) repository.getById(Publisher.class, pubId);
         Assertions.assertNotNull(pubAfterAdd);
+        Assertions.assertEquals(pub.getName(), pubAfterAdd.getName());
+         */
 
         Assertions.assertThrows(NoResultException.class, () -> {
             repository.remove(pub);
+            //getting publisher by its previous id should throw NoResultException
             var pubAfterRemove = repository.getById(Publisher.class, pubId);
         });
     }
 
+    @Test
+    @TestTransaction
+    public void add_MediaItemWithoutTopicsAdd1TopicAfterwards_Expect1TopicInDbAndInMediaItem() {
+        var mediaItem = assembleMediaItem("Caillou's revenge", true, false);
 
+        persistMediaItem(mediaItem);
+
+        //check if mediaItem exists
+        var actualMediaItem = (MediaItem) repository.getById(MediaItem.class, mediaItem.getId());
+        Assertions.assertNotNull(actualMediaItem);
+        Assertions.assertEquals(mediaItem.getTitle(), actualMediaItem.getTitle());
+
+        //Add topic to existent mediaitem
+        var topic = new Topic();
+        topic.setKeyword("Children");
+
+        repository.add(actualMediaItem, topic);
+
+        //check if topic exists in db
+        var actualTopic = (Topic)repository.getById(Topic.class, topic.getId());
+        Assertions.assertEquals(topic.getKeyword(), actualTopic.getKeyword());
+
+        //check if topic is accessible through mediaitem
+        Assertions.assertEquals(1, actualMediaItem.getTopics().size());
+    }
 }
