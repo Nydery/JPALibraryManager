@@ -50,6 +50,11 @@ public class MediaItem extends IdentityEntity{
         return authors;
     }
 
+    //Add for testing purpose in logic (addMediaItem)
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
+    }
+
     public Genre getGenre() {
         return genre;
     }
