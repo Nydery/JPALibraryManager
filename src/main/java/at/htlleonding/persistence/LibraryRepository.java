@@ -51,6 +51,7 @@ public class LibraryRepository {
       tries to find a matching entity in the DB.
       If found, it returns this entity, otherwise it persists the given entity and returns it.
      */
+    @Transactional
     public <T extends IEntity> T findOrInsert(T e) {
         Class c = e.getClass();
 
