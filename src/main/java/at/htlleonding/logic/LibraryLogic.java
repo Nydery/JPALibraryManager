@@ -7,7 +7,10 @@ import org.modelmapper.ModelMapper;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.print.attribute.standard.Media;
 import javax.transaction.Transactional;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 /*
  LibraryLogic: Interface to the library data. Provides an entity-free interface to the outside.
@@ -90,6 +93,18 @@ public class LibraryLogic {
         //Add reference objects to db first
         var mediaItemDB = mapper.map(mediaItemModel, MediaItem.class);
 
+        //Alternative to modelmapper not mapping correctly....
+        //Add authors manually and get those entities again to add to MediaItem entity
+        var authorsModels = mediaItemModel.getAuthors();
+        var authorsDB = new HashSet<Author>();
+
+        for(var a : mediaItemDB.getAuthors()) {
+            var aId = addAuthor(mapper.map(a, AuthorModel.class));
+            authorsDB.add((Author) repository.getById(Author.class, aId));
+        }
+        mediaItemDB.setAuthors(authorsDB);
+        //--
+
         var genreId = addGenre(mapper.map(mediaItemDB.getGenre(), GenreModel.class));
         mediaItemDB.setGenre((Genre) repository.getById(Genre.class, genreId));
 
@@ -167,7 +182,8 @@ public class LibraryLogic {
     //-------------------------------------------------------
     // Get by Id methods
     //-------------------------------------------------------
-
+    //TODO: Add special "manual mappings" for entities with n:m relations
+    //TODO: Add setter for n:m relation Set<>'s
     public AuthorModel getAuthorById(long id) {
         Author a = (Author) repository.getById(Author.class, id);
         var result = mapper.map (a, AuthorModel.class);
@@ -192,7 +208,13 @@ public class LibraryLogic {
     }
     public MediaExemplarModel getMediaExemplarById(long id) {
         MediaExemplar me = (MediaExemplar) repository.getById(MediaExemplar.class, id);
-        return mapper.map(me, MediaExemplarModel.class);
+        var result = mapper.map(me, MediaExemplarModel.class);
+
+        var authors = me.getMediaItem().getAuthors();
+        var authorModels = authors.stream().map(a -> mapper.map(a, AuthorModel.class)).collect(Collectors.toSet());
+        result.getMediaItem().setAuthors(authorModels);
+
+        return result;
     }
     public MediaItemModel getMediaItemById(long id) {
         MediaItem mi = (MediaItem) repository.getById(MediaItem.class, id);
