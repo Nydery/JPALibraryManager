@@ -6,8 +6,8 @@ import java.util.Set;
 public class MediaItemModel extends IdentityModel{
     private String title;
     private GenreModel genre;
-    private final Set<TopicModel> topics = new HashSet<>();
-    private final Set<AuthorModel> authors = new HashSet<>();
+    private Set<TopicModel> topics = new HashSet<>();
+    private Set<AuthorModel> authors = new HashSet<>();
 
     //------------------------------------
 
@@ -28,8 +28,14 @@ public class MediaItemModel extends IdentityModel{
     public Set<TopicModel> getTopics() {
         return topics;
     }
+    public void setTopics(Set<TopicModel> topics) {
+        this.topics = topics;
+    }
 
     public Set<AuthorModel> getAuthors() {
         return authors;
+    }
+    public void setAuthors(Set<AuthorModel> authors) {
+        this.authors = authors;
     }
 }

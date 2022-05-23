@@ -7,7 +7,7 @@ import java.util.Set;
 public class SaleModel extends IdentityModel{
     private LocalDate datetime;
     private ReceiptModel receipt;
-    private final Set<MediaExemplarModel> mediaExemplars = new HashSet<>();
+    private MediaExemplarModel mediaExemplar;
 
     //------------------------------------
 
@@ -25,7 +25,10 @@ public class SaleModel extends IdentityModel{
         this.receipt = receipt;
     }
 
-    public Set<MediaExemplarModel> getMediaExemplars() {
-        return mediaExemplars;
+    public MediaExemplarModel getMediaExemplar() {
+        return mediaExemplar;
+    }
+    public void setMediaExemplar(MediaExemplarModel mediaExemplar) {
+        this.mediaExemplar = mediaExemplar;
     }
 }

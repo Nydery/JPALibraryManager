@@ -8,4 +8,8 @@ public abstract class IdentityModel implements IEntity {
     public long getId() {
         return id;
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

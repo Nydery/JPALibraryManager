@@ -1,12 +1,16 @@
 package at.htlleonding.persistence.entities;
 
+import at.htlleonding.misc.BusinessKey;
+
 import javax.persistence.*;
 
 @MappedSuperclass
 public abstract class Person extends IdentityEntity {
     @Column(nullable = false)
+    @BusinessKey
     private String firstName;
     @Column(nullable = false)
+    @BusinessKey
     private String lastName;
 
     //--------------------------------
@@ -27,7 +31,6 @@ public abstract class Person extends IdentityEntity {
     public String getFirstName() {
         return firstName;
     }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -35,7 +38,6 @@ public abstract class Person extends IdentityEntity {
     public String getLastName() {
         return lastName;
     }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }

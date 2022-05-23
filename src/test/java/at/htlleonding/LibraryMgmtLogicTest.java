@@ -43,6 +43,15 @@ class LibraryMgmtLogicTest {
         return result;
     }
 
+    private AuthorModel createAuthor(String firstName, String lastName) {
+        var result = new AuthorModel();
+
+        result.setFirstName(firstName);
+        result.setLastName(lastName);
+
+        return result;
+    }
+
     private MediaExemplarModel createMediaExemplar(MediaItemModel item, LocalDate buyDate, String language, String publisherName, boolean forSale, boolean forRent) {
         var result = new MediaExemplarModel();
 
@@ -72,10 +81,25 @@ class LibraryMgmtLogicTest {
     public void addPaperBookWithOneAuthor_makeRentable_canBeRented()
     {
         var mediaItem = createMediaItem("1984", "dystopian", new String[] {"idktopic"});
-        target.addMediaItem(mediaItem);
-        var mediaExemplar = createMediaExemplar(mediaItem, LocalDate.now(), "Deutsch", "HTL Leonding", false, true);
+        var author1 = createAuthor("Amel", "Sarvan");
 
+        var author1Id = target.addAuthor(author1);
+        var eAuthor = target.getAuthorById(author1Id);
+        mediaItem.getAuthors().add(eAuthor);
+
+        //push / update entity NOT MODELL!!!!!L!ÜO!)=Z§=T!Z$FUCK - I HATE THIS ...REALLY
+
+        var mediaExemplar =
+                createMediaExemplar(mediaItem, LocalDate.now(), "Deutsch", "HTL Leonding", false, true);
+
+        //Modelmapper in addMediaExemplar() doesnt map Hashmap of authormodels to hashmap of authors => authors get lost: HOW DO WE FIX THIS??? HELP
         var meId = target.addMediaExemplar(mediaExemplar);
+
+        //Check if 1 author is set
+        var meModel = target.getMediaExemplarById(meId);
+        var miModel = target.getMediaItemById(meModel.getMediaItem().getId());
+
+        Assertions.assertEquals(1, miModel.getAuthors().size());
 
         //Check if rentable
         var actual = target.isMediaExemplarRentable(meId);
@@ -86,7 +110,39 @@ class LibraryMgmtLogicTest {
     @TestTransaction
     public void addPaperBookWithThreeAuthors_makeRentable_canBeRented()
     {
-        Assertions.fail("Not implemented yet");
+        var mediaItem = createMediaItem("Benjamin Blümchen", "comic", new String[] {"fiction", "horror"});
+
+        var author1 = createAuthor("Benjamin", "Imsirovic");
+        var author2 = createAuthor("Simon", "Rausch-Schott");
+        var author3 = createAuthor("Jakob", "Lehner");
+
+        var a1Id = target.addAuthor(author1);
+        var a2Id = target.addAuthor(author2);
+        var a3Id = target.addAuthor(author3);
+
+        var eAuthor1 = target.getAuthorById(a1Id);
+        var eAuthor2 = target.getAuthorById(a2Id);
+        var eAuthor3 = target.getAuthorById(a3Id);
+
+        mediaItem.getAuthors().add(eAuthor1);
+        mediaItem.getAuthors().add(eAuthor2);
+        mediaItem.getAuthors().add(eAuthor3);
+
+        var mediaExemplar =
+                createMediaExemplar(mediaItem, LocalDate.now(), "Deutsch", "HTL Leonding", true, true);
+
+        var meId = target.addMediaExemplar(mediaExemplar);
+
+
+        //Check if 3 authors are set
+        var meModel = target.getMediaExemplarById(meId);
+        var miModel = target.getMediaItemById(meModel.getMediaItem().getId());
+
+        Assertions.assertEquals(3, miModel.getAuthors().size());
+
+        //Check if rentable
+        var actual = target.isMediaExemplarRentable(meId);
+        Assertions.assertTrue(actual);
     }
 
     @Test
