@@ -3,6 +3,7 @@ package at.htlleonding;
 import at.htlleonding.logic.LibraryLogic;
 import at.htlleonding.persistence.entities.Genre;
 import at.htlleonding.persistence.entities.MediaExemplar;
+import at.htlleonding.persistence.enums.MediaTypes;
 import at.htlleonding.persistence.models.*;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
@@ -53,7 +54,7 @@ class LibraryMgmtLogicTest {
         return result;
     }
 
-    private MediaExemplarModel createMediaExemplar(MediaItemModel item, LocalDate buyDate, String language, String publisherName, boolean forSale, boolean forRent) {
+    private MediaExemplarModel createMediaExemplar(MediaItemModel item, MediaTypes mediatype, LocalDate buyDate, String language, String publisherName, boolean forSale, boolean forRent) {
         var result = new MediaExemplarModel();
 
         result.setMediaItem(item);
@@ -69,6 +70,11 @@ class LibraryMgmtLogicTest {
         var lang = new LanguageModel();
         lang.setKeyword(language);
         result.setLanguage(lang);
+
+        var type = new MediaTypeModel();
+        type.setType(mediatype);
+        type.setPrice(0);
+        result.setMediaType(type);
 
         return result;
     }
