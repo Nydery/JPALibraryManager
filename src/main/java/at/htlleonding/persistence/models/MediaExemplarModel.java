@@ -11,9 +11,18 @@ public class MediaExemplarModel extends IdentityModel{
     private MediaItemModel mediaItem;
     private LanguageModel language;
     private PublisherModel publisher;
+    private MediaTypeModel mediaType;
     private final Set<SaleModel> sales = new HashSet<>();
 
     //------------------------------------
+
+    public MediaTypeModel getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(MediaTypeModel mediaType) {
+        this.mediaType = mediaType;
+    }
 
     public LocalDate getBuyDate() {
         return buyDate;
