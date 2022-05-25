@@ -21,7 +21,7 @@ class LibraryMgmtLogicTest {
     LibraryLogic target;
 
     //-------------------------------------------------------
-    // Helper methods for tests
+    // START: Helper methods for tests
     //-------------------------------------------------------
     private void flushAndClear() {
         target.flushAndClear();
@@ -79,6 +79,40 @@ class LibraryMgmtLogicTest {
         return result;
     }
 
+    //Adds a mediaexemplar and checks if it exists and the authors are persisted aswell
+    //Returns the model of inserted mediaexemplar for further checks (if needed)
+    private MediaExemplarModel addMediaExemplarAndCheckRentable(MediaExemplarModel mediaExemplar) {
+        //Modelmapper in addMediaExemplar() doesn't map Hashmap of author-models to hashmap of authors => authors get lost
+        //Fixed: see implementation of addMediaExemplar() below
+
+        //Persist media exemplar
+        var meId = target.addMediaExemplar(mediaExemplar);
+
+        //Get entity from db (parsed as model)
+        var meModel = target.getMediaExemplarById(meId);
+        var miModel = target.getMediaItemById(meModel.getMediaItem().getId());
+
+        //Check if not null
+        Assertions.assertNotNull(meModel);
+        Assertions.assertNotNull(miModel);
+
+        //Check if author count of input and entity is equal thus correct
+        Assertions.assertEquals(mediaExemplar.getMediaItem().getAuthors().size(), miModel.getAuthors().size());
+
+        //Check if rentable
+        var actual = target.isMediaExemplarRentable(meId);
+        Assertions.assertTrue(actual);
+
+        return meModel;
+    }
+
+
+    //-------------------------------------------------------
+    // END: Helper methods for tests
+    //-------------------------------------------------------
+
+
+
     /*
     Add rentable items to the library, of each media type, with multiple authors and attributes.
     Verify that these items can be rented.
@@ -97,19 +131,7 @@ class LibraryMgmtLogicTest {
         var mediaExemplar =
                 createMediaExemplar(mediaItem, MediaTypes.Book, LocalDate.now(), "Deutsch", "HTL Leonding", false, true);
 
-        //Modelmapper in addMediaExemplar() doesnt map Hashmap of authormodels to hashmap of authors => authors get lost: HOW DO WE FIX THIS??? HELP
-        //Fixed: see implementation of addMediaExemplar() below
-        var meId = target.addMediaExemplar(mediaExemplar);
-
-        //Check if 1 author is set
-        var meModel = target.getMediaExemplarById(meId);
-        var miModel = target.getMediaItemById(meModel.getMediaItem().getId());
-
-        Assertions.assertEquals(1, miModel.getAuthors().size());
-
-        //Check if rentable
-        var actual = target.isMediaExemplarRentable(meId);
-        Assertions.assertTrue(actual);
+        addMediaExemplarAndCheckRentable(mediaExemplar);
     }
 
     @Test
@@ -137,18 +159,7 @@ class LibraryMgmtLogicTest {
         var mediaExemplar =
                 createMediaExemplar(mediaItem, MediaTypes.Book, LocalDate.now(), "Deutsch", "HTL Leonding", true, true);
 
-        var meId = target.addMediaExemplar(mediaExemplar);
-
-
-        //Check if 3 authors are set
-        var meModel = target.getMediaExemplarById(meId);
-        var miModel = target.getMediaItemById(meModel.getMediaItem().getId());
-
-        Assertions.assertEquals(3, miModel.getAuthors().size());
-
-        //Check if rentable
-        var actual = target.isMediaExemplarRentable(meId);
-        Assertions.assertTrue(actual);
+        addMediaExemplarAndCheckRentable(mediaExemplar);
     }
 
     @Test
@@ -182,31 +193,9 @@ class LibraryMgmtLogicTest {
         var mediaExemplar3 =
                 createMediaExemplar(mediaItem, MediaTypes.Book, LocalDate.now(), "Französisch", "HTL Leonding", false, true);
 
-        var meId = target.addMediaExemplar(mediaExemplar);
-        var meId2 = target.addMediaExemplar(mediaExemplar2);
-        var meId3 = target.addMediaExemplar(mediaExemplar3);
-
-        //Check if 3 authors are set
-        var meModel = target.getMediaExemplarById(meId);
-        var meModel2 = target.getMediaExemplarById(meId2);
-        var meModel3 = target.getMediaExemplarById(meId3);
-
-        var miModel = target.getMediaItemById(meModel.getMediaItem().getId());
-        var miModel2 = target.getMediaItemById(meModel2.getMediaItem().getId());
-        var miModel3 = target.getMediaItemById(meModel3.getMediaItem().getId());
-
-        Assertions.assertEquals(3, miModel.getAuthors().size());
-        Assertions.assertEquals(3, miModel2.getAuthors().size());
-        Assertions.assertEquals(3, miModel3.getAuthors().size());
-
-        //Check if rentable
-        var actual = target.isMediaExemplarRentable(meId);
-        var actual2 = target.isMediaExemplarRentable(meId2);
-        var actual3 = target.isMediaExemplarRentable(meId3);
-
-        Assertions.assertTrue(actual);
-        Assertions.assertTrue(actual2);
-        Assertions.assertTrue(actual3);
+        addMediaExemplarAndCheckRentable(mediaExemplar);
+        addMediaExemplarAndCheckRentable(mediaExemplar2);
+        addMediaExemplarAndCheckRentable(mediaExemplar3);
     }
 
     @Test
@@ -216,34 +205,20 @@ class LibraryMgmtLogicTest {
         var mediaItem = createMediaItem("Bravo", "boulevard", new String[] {"fiction", "horror"});
 
         var author1 = createAuthor("Amel", "Sarvan");
-
         var a1Id = target.addAuthor(author1);
 
         var eAuthor1 = target.getAuthorById(a1Id);
-
         mediaItem.getAuthors().add(eAuthor1);
 
         var mediaExemplar =
                 createMediaExemplar(mediaItem, MediaTypes.Newspaper, LocalDate.now(), "Deutsch", "HTL Leonding", false, true);
 
-        var meId = target.addMediaExemplar(mediaExemplar);
+        //Default checks of media exemplar
+        var meModel = addMediaExemplarAndCheckRentable(mediaExemplar);
 
-        //Check if 1 authors are set
-        var meModel = target.getMediaExemplarById(meId);
-
-        var miModel = target.getMediaItemById(meModel.getMediaItem().getId());
-
-        Assertions.assertEquals(1, miModel.getAuthors().size());
-
-        //Check if rentable
-        var actual = target.isMediaExemplarRentable(meId);
-
-        Assertions.assertTrue(actual);
-
-        var mediumType = target.getMediaTypeById(meId);
-        var mediaTypes = mediumType.getType();
-
-        Assertions.assertEquals(MediaTypes.Newspaper, mediaTypes);
+        //Check if media type is correct
+        var mtModel = target.getMediaTypeById(meModel.getMediaType().getId());
+        Assertions.assertEquals(MediaTypes.Newspaper, mtModel.getType());
     }
 
     @Test
@@ -251,36 +226,21 @@ class LibraryMgmtLogicTest {
     public void addAudioBookWithOneAuthor_makeRentable_canBeRented()
     {
         var mediaItem = createMediaItem("IT", "Thriller", new String[] {"fiction", "horror"});
-
         var author1 = createAuthor("Steven", "King");
 
         var a1Id = target.addAuthor(author1);
-
         var eAuthor1 = target.getAuthorById(a1Id);
-
         mediaItem.getAuthors().add(eAuthor1);
 
         var mediaExemplar =
                 createMediaExemplar(mediaItem, MediaTypes.AudioBook, LocalDate.now(), "Deutsch", "Apress", false, true);
 
-        var meId = target.addMediaExemplar(mediaExemplar);
+        //Default checks of media exemplar
+        var meModel = addMediaExemplarAndCheckRentable(mediaExemplar);
 
-        //Check if 1 authors are set
-        var meModel = target.getMediaExemplarById(meId);
-
-        var miModel = target.getMediaItemById(meModel.getMediaItem().getId());
-
-        Assertions.assertEquals(1, miModel.getAuthors().size());
-
-        //Check if rentable
-        var actual = target.isMediaExemplarRentable(meId);
-
-        Assertions.assertTrue(actual);
-
-        var mediumType = target.getMediaTypeById(meId);
-        var mediaTypes = mediumType.getType();
-
-        Assertions.assertEquals(MediaTypes.AudioBook, mediaTypes);
+        //Check if media type is correct
+        var mtModel = target.getMediaTypeById(meModel.getMediaType().getId());
+        Assertions.assertEquals(MediaTypes.AudioBook, mtModel.getType());
     }
 
     @Test
@@ -288,36 +248,21 @@ class LibraryMgmtLogicTest {
     public void addEBookWithOneAuthor_makeRentable_canBeRented()
     {
         var mediaItem = createMediaItem("IT", "Thriller", new String[] {"fiction", "horror"});
-
         var author1 = createAuthor("Steven", "King");
 
         var a1Id = target.addAuthor(author1);
-
         var eAuthor1 = target.getAuthorById(a1Id);
-
         mediaItem.getAuthors().add(eAuthor1);
 
         var mediaExemplar =
                 createMediaExemplar(mediaItem, MediaTypes.EBook, LocalDate.now(), "Deutsch", "Tor", false, true);
 
-        var meId = target.addMediaExemplar(mediaExemplar);
+        //Default checks of media exemplar
+        var meModel = addMediaExemplarAndCheckRentable(mediaExemplar);
 
-        //Check if 1 authors are set
-        var meModel = target.getMediaExemplarById(meId);
-
-        var miModel = target.getMediaItemById(meModel.getMediaItem().getId());
-
-        Assertions.assertEquals(1, miModel.getAuthors().size());
-
-        //Check if rentable
-        var actual = target.isMediaExemplarRentable(meId);
-
-        Assertions.assertTrue(actual);
-
-        var mediumType = target.getMediaTypeById(meId);
-        var mediaTypes = mediumType.getType();
-
-        Assertions.assertEquals(MediaTypes.EBook, mediaTypes);
+        //Check if media type is correct
+        var mtModel = target.getMediaTypeById(meModel.getMediaType().getId());
+        Assertions.assertEquals(MediaTypes.EBook, mtModel.getType());
     }
 
     @Test
@@ -325,36 +270,21 @@ class LibraryMgmtLogicTest {
     public void addJournalWithOneAuthor_makeRentable_canBeRented()
     {
         var mediaItem = createMediaItem("IT", "Thriller", new String[] {"fiction", "horror"});
-
         var author1 = createAuthor("Steven", "King");
 
         var a1Id = target.addAuthor(author1);
-
         var eAuthor1 = target.getAuthorById(a1Id);
-
         mediaItem.getAuthors().add(eAuthor1);
 
         var mediaExemplar =
                 createMediaExemplar(mediaItem, MediaTypes.Magazine, LocalDate.now(), "Englisch", "Tor", false, true);
 
-        var meId = target.addMediaExemplar(mediaExemplar);
+        //Default checks of media exemplar
+        var meModel = addMediaExemplarAndCheckRentable(mediaExemplar);
 
-        //Check if 1 authors are set
-        var meModel = target.getMediaExemplarById(meId);
-
-        var miModel = target.getMediaItemById(meModel.getMediaItem().getId());
-
-        Assertions.assertEquals(1, miModel.getAuthors().size());
-
-        //Check if rentable
-        var actual = target.isMediaExemplarRentable(meId);
-
-        Assertions.assertTrue(actual);
-
-        var mediumType = target.getMediaTypeById(meId);
-        var mediaTypes = mediumType.getType();
-
-        Assertions.assertEquals(MediaTypes.Magazine, mediaTypes);
+        //Check if media type is correct
+        var mtModel = target.getMediaTypeById(meModel.getMediaType().getId());
+        Assertions.assertEquals(MediaTypes.Magazine, mtModel.getType());
     }
 
 
@@ -498,15 +428,13 @@ class LibraryMgmtLogicTest {
         MediaExemplarModel exemplarModel = createMediaExemplar(model, MediaTypes.Book, LocalDate.now(), "English", "Sony", true, false);
         var id = target.addMediaExemplar(exemplarModel);
 
-        Assertions.assertEquals(exemplarModel.isForRent(), false);
+        Assertions.assertFalse(exemplarModel.isForRent());
     }
 
     @Test
     @TestTransaction
     public void setOneOfTwoItemsForSale_onlyOneCanBeRented()
     {
-
-
         Assertions.fail("Not implemented yet");
     }
 
@@ -514,8 +442,6 @@ class LibraryMgmtLogicTest {
     @TestTransaction
     public void setThreeDifferentItemsForSale_CustomerBuys2_InvoiceHasTwoItems_OnlyOneItemForRent()
     {
-
-
         Assertions.fail("Not implemented yet");
     }
 }
