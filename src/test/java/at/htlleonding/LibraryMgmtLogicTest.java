@@ -95,7 +95,7 @@ class LibraryMgmtLogicTest {
         mediaItem.getAuthors().add(eAuthor);
 
         var mediaExemplar =
-                createMediaExemplar(mediaItem, LocalDate.now(), "Deutsch", "HTL Leonding", false, true);
+                createMediaExemplar(mediaItem, MediaTypes.Book, LocalDate.now(), "Deutsch", "HTL Leonding", false, true);
 
         //Modelmapper in addMediaExemplar() doesnt map Hashmap of authormodels to hashmap of authors => authors get lost: HOW DO WE FIX THIS??? HELP
         //Fixed: see implementation of addMediaExemplar() below
@@ -135,7 +135,7 @@ class LibraryMgmtLogicTest {
         mediaItem.getAuthors().add(eAuthor3);
 
         var mediaExemplar =
-                createMediaExemplar(mediaItem, LocalDate.now(), "Deutsch", "HTL Leonding", true, true);
+                createMediaExemplar(mediaItem, MediaTypes.Book, LocalDate.now(), "Deutsch", "HTL Leonding", true, true);
 
         var meId = target.addMediaExemplar(mediaExemplar);
 
@@ -324,7 +324,7 @@ class LibraryMgmtLogicTest {
         model.setTitle("Der Sacklschupfer im Lagerhaus");
         var itemID = target.addMediaItem(model);
 
-        MediaExemplarModel exemplarModel = createMediaExemplar(model, LocalDate.now(), "English", "Sony", true, false);
+        MediaExemplarModel exemplarModel = createMediaExemplar(model, MediaTypes.Book, LocalDate.now(), "English", "Sony", true, false);
         var id = target.addMediaExemplar(exemplarModel);
 
         Assertions.assertEquals(exemplarModel.isForRent(), false);
