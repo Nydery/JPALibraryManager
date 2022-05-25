@@ -155,35 +155,206 @@ class LibraryMgmtLogicTest {
     @TestTransaction
     public void addThreeCopiesOfPaperBookWithThreeAuthors_makeRentable_canBeRented()
     {
-        Assertions.fail("Not implemented yet");
+        var mediaItem = createMediaItem("Benjamin Blümchen", "comic", new String[] {"fiction", "horror"});
+
+        var author1 = createAuthor("Benjamin", "Imsirovic");
+        var author2 = createAuthor("Simon", "Rausch-Schott");
+        var author3 = createAuthor("Jakob", "Lehner");
+
+        var a1Id = target.addAuthor(author1);
+        var a2Id = target.addAuthor(author2);
+        var a3Id = target.addAuthor(author3);
+
+        var eAuthor1 = target.getAuthorById(a1Id);
+        var eAuthor2 = target.getAuthorById(a2Id);
+        var eAuthor3 = target.getAuthorById(a3Id);
+
+        mediaItem.getAuthors().add(eAuthor1);
+        mediaItem.getAuthors().add(eAuthor2);
+        mediaItem.getAuthors().add(eAuthor3);
+
+        var mediaExemplar =
+                createMediaExemplar(mediaItem, MediaTypes.Book, LocalDate.now(), "Deutsch", "HTL Leonding", false, true);
+
+        var mediaExemplar2 =
+                createMediaExemplar(mediaItem, MediaTypes.Book, LocalDate.now(), "Englisch", "HTL Leonding", false, true);
+
+        var mediaExemplar3 =
+                createMediaExemplar(mediaItem, MediaTypes.Book, LocalDate.now(), "Französisch", "HTL Leonding", false, true);
+
+        var meId = target.addMediaExemplar(mediaExemplar);
+        var meId2 = target.addMediaExemplar(mediaExemplar2);
+        var meId3 = target.addMediaExemplar(mediaExemplar3);
+
+        //Check if 3 authors are set
+        var meModel = target.getMediaExemplarById(meId);
+        var meModel2 = target.getMediaExemplarById(meId2);
+        var meModel3 = target.getMediaExemplarById(meId3);
+
+        var miModel = target.getMediaItemById(meModel.getMediaItem().getId());
+        var miModel2 = target.getMediaItemById(meModel2.getMediaItem().getId());
+        var miModel3 = target.getMediaItemById(meModel3.getMediaItem().getId());
+
+        Assertions.assertEquals(3, miModel.getAuthors().size());
+        Assertions.assertEquals(3, miModel2.getAuthors().size());
+        Assertions.assertEquals(3, miModel3.getAuthors().size());
+
+        //Check if rentable
+        var actual = target.isMediaExemplarRentable(meId);
+        var actual2 = target.isMediaExemplarRentable(meId2);
+        var actual3 = target.isMediaExemplarRentable(meId3);
+
+        Assertions.assertTrue(actual);
+        Assertions.assertTrue(actual2);
+        Assertions.assertTrue(actual3);
     }
 
     @Test
     @TestTransaction
     public void addNewspaperWithOneAuthor_makeRentable_canBeRented()
     {
-        Assertions.fail("Not implemented yet");
+        var mediaItem = createMediaItem("Bravo", "boulevard", new String[] {"fiction", "horror"});
+
+        var author1 = createAuthor("Amel", "Sarvan");
+
+        var a1Id = target.addAuthor(author1);
+
+        var eAuthor1 = target.getAuthorById(a1Id);
+
+        mediaItem.getAuthors().add(eAuthor1);
+
+        var mediaExemplar =
+                createMediaExemplar(mediaItem, MediaTypes.Newspaper, LocalDate.now(), "Deutsch", "HTL Leonding", false, true);
+
+        var meId = target.addMediaExemplar(mediaExemplar);
+
+        //Check if 1 authors are set
+        var meModel = target.getMediaExemplarById(meId);
+
+        var miModel = target.getMediaItemById(meModel.getMediaItem().getId());
+
+        Assertions.assertEquals(1, miModel.getAuthors().size());
+
+        //Check if rentable
+        var actual = target.isMediaExemplarRentable(meId);
+
+        Assertions.assertTrue(actual);
+
+        var mediumType = target.getMediaTypeById(meId);
+        var mediaTypes = mediumType.getType();
+
+        Assertions.assertEquals(MediaTypes.Newspaper, mediaTypes);
     }
 
     @Test
     @TestTransaction
     public void addAudioBookWithOneAuthor_makeRentable_canBeRented()
     {
-        Assertions.fail("Not implemented yet");
+        var mediaItem = createMediaItem("IT", "Thriller", new String[] {"fiction", "horror"});
+
+        var author1 = createAuthor("Steven", "King");
+
+        var a1Id = target.addAuthor(author1);
+
+        var eAuthor1 = target.getAuthorById(a1Id);
+
+        mediaItem.getAuthors().add(eAuthor1);
+
+        var mediaExemplar =
+                createMediaExemplar(mediaItem, MediaTypes.AudioBook, LocalDate.now(), "Deutsch", "Apress", false, true);
+
+        var meId = target.addMediaExemplar(mediaExemplar);
+
+        //Check if 1 authors are set
+        var meModel = target.getMediaExemplarById(meId);
+
+        var miModel = target.getMediaItemById(meModel.getMediaItem().getId());
+
+        Assertions.assertEquals(1, miModel.getAuthors().size());
+
+        //Check if rentable
+        var actual = target.isMediaExemplarRentable(meId);
+
+        Assertions.assertTrue(actual);
+
+        var mediumType = target.getMediaTypeById(meId);
+        var mediaTypes = mediumType.getType();
+
+        Assertions.assertEquals(MediaTypes.AudioBook, mediaTypes);
     }
 
     @Test
     @TestTransaction
     public void addEBookWithOneAuthor_makeRentable_canBeRented()
     {
-        Assertions.fail("Not implemented yet");
+        var mediaItem = createMediaItem("IT", "Thriller", new String[] {"fiction", "horror"});
+
+        var author1 = createAuthor("Steven", "King");
+
+        var a1Id = target.addAuthor(author1);
+
+        var eAuthor1 = target.getAuthorById(a1Id);
+
+        mediaItem.getAuthors().add(eAuthor1);
+
+        var mediaExemplar =
+                createMediaExemplar(mediaItem, MediaTypes.EBook, LocalDate.now(), "Deutsch", "Tor", false, true);
+
+        var meId = target.addMediaExemplar(mediaExemplar);
+
+        //Check if 1 authors are set
+        var meModel = target.getMediaExemplarById(meId);
+
+        var miModel = target.getMediaItemById(meModel.getMediaItem().getId());
+
+        Assertions.assertEquals(1, miModel.getAuthors().size());
+
+        //Check if rentable
+        var actual = target.isMediaExemplarRentable(meId);
+
+        Assertions.assertTrue(actual);
+
+        var mediumType = target.getMediaTypeById(meId);
+        var mediaTypes = mediumType.getType();
+
+        Assertions.assertEquals(MediaTypes.EBook, mediaTypes);
     }
 
     @Test
     @TestTransaction
     public void addJournalWithOneAuthor_makeRentable_canBeRented()
     {
-        Assertions.fail("Not implemented yet");
+        var mediaItem = createMediaItem("IT", "Thriller", new String[] {"fiction", "horror"});
+
+        var author1 = createAuthor("Steven", "King");
+
+        var a1Id = target.addAuthor(author1);
+
+        var eAuthor1 = target.getAuthorById(a1Id);
+
+        mediaItem.getAuthors().add(eAuthor1);
+
+        var mediaExemplar =
+                createMediaExemplar(mediaItem, MediaTypes.Magazine, LocalDate.now(), "Englisch", "Tor", false, true);
+
+        var meId = target.addMediaExemplar(mediaExemplar);
+
+        //Check if 1 authors are set
+        var meModel = target.getMediaExemplarById(meId);
+
+        var miModel = target.getMediaItemById(meModel.getMediaItem().getId());
+
+        Assertions.assertEquals(1, miModel.getAuthors().size());
+
+        //Check if rentable
+        var actual = target.isMediaExemplarRentable(meId);
+
+        Assertions.assertTrue(actual);
+
+        var mediumType = target.getMediaTypeById(meId);
+        var mediaTypes = mediumType.getType();
+
+        Assertions.assertEquals(MediaTypes.Magazine, mediaTypes);
     }
 
 
