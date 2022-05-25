@@ -47,10 +47,12 @@ public class LibraryLogic {
         var mediaItemId = addMediaItem(exemplarModel.getMediaItem());
         var languageId = addLanguage(exemplarModel.getLanguage());
         var publisherId = addPublisher(exemplarModel.getPublisher());
+        var mediaTypeId = addMediaType(exemplarModel.getMediaType());
 
         mediaExemplarDB.setMediaItem((MediaItem) repository.getById(MediaItem.class, mediaItemId));
         mediaExemplarDB.setLanguage((Language) repository.getById(Language.class, languageId));
         mediaExemplarDB.setPublisher((Publisher) repository.getById(Publisher.class, publisherId));
+        mediaExemplarDB.setMediaType((MediaType) repository.getById(MediaType.class, mediaTypeId));
 
         var result =  repository.add(mediaExemplarDB);
         return result.getId();
