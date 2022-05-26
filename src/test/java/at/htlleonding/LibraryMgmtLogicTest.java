@@ -3,6 +3,7 @@ package at.htlleonding;
 import at.htlleonding.logic.LibraryLogic;
 import at.htlleonding.persistence.entities.Genre;
 import at.htlleonding.persistence.entities.MediaExemplar;
+import at.htlleonding.persistence.entities.MediaType;
 import at.htlleonding.persistence.enums.MediaTypes;
 import at.htlleonding.persistence.models.*;
 import io.quarkus.test.TestTransaction;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
+import javax.print.attribute.standard.Media;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 
