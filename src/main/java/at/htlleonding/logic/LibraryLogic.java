@@ -2,13 +2,24 @@ package at.htlleonding.logic;
 
 import at.htlleonding.persistence.*;
 import at.htlleonding.persistence.entities.*;
+import at.htlleonding.persistence.export.WorksOfAuthors;
 import at.htlleonding.persistence.models.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.modelmapper.ModelMapper;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.print.attribute.standard.Media;
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
@@ -270,5 +281,37 @@ public class LibraryLogic {
         var result = (MediaExemplar)ientity;
 
         return result.isForRent();
+    }
+
+    //Export method(s)
+    //Exports authors and their mediaitems into the specified xml file
+    public boolean exportToXML(String filename) {
+        var result = false;
+
+        //Get data to export
+        var data = repository.getMediaOfAuthors();
+
+        //Parse to xml
+        String xmlData = null;
+        try {
+            xmlData = parseToXML(data);
+
+            //Save to file
+            Files.writeString(Path.of(filename), xmlData);
+        } catch (IOException e) {
+            return false;
+        }
+
+        result = Files.exists(Path.of(filename));
+        return result;
+    }
+
+    private String parseToXML(Object obj) throws JsonProcessingException {
+        //ToDo: Implement mediaofauthor to xml parsing
+        ObjectMapper xmlMapper = new XmlMapper();
+        xmlMapper.registerModule(new JavaTimeModule());
+        xmlMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        return xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
     }
 }

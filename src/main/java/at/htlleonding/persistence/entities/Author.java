@@ -1,17 +1,15 @@
 package at.htlleonding.persistence.entities;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Author extends Person{
-    @ManyToMany(mappedBy = "authors")
-    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "authors", fetch = FetchType.EAGER)
     private final Set<MediaItem> mediaItems = new HashSet<>();
 
     //-----------------
@@ -28,7 +26,4 @@ public class Author extends Person{
     public Set<MediaItem> getMediaItems() {
         return mediaItems;
     }
-
-
-
 }

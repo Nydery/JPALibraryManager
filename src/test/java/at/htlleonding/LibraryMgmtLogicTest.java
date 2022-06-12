@@ -246,7 +246,7 @@ class LibraryMgmtLogicTest {
     }
 
     @Test
-    @TestTransaction
+    @Transactional
     public void addEBookWithOneAuthor_makeRentable_canBeRented()
     {
         var mediaItem = createMediaItem("IT", "Thriller", new String[] {"fiction", "horror"});
@@ -268,7 +268,7 @@ class LibraryMgmtLogicTest {
     }
 
     @Test
-    @TestTransaction
+    @Transactional
     public void addJournalWithOneAuthor_makeRentable_canBeRented()
     {
         var mediaItem = createMediaItem("IT", "Thriller", new String[] {"fiction", "horror"});

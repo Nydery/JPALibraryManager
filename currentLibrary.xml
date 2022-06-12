@@ -1,0 +1,7 @@
+<WorksOfAuthors>
+  <Author firstName="George" lastName="Orwell" dob="1903-06-25" dod="1950-01-21">
+    <Work title="1984" genre="reality">
+      <Publication publisher="Simon RS" pubYear="2022-06-12" type="Book"/>
+    </Work>
+  </Author>
+</WorksOfAuthors>

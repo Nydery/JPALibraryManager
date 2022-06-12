@@ -3,6 +3,7 @@ package at.htlleonding.persistence;
 import at.htlleonding.common.Common;
 import at.htlleonding.misc.BusinessKey;
 import at.htlleonding.persistence.entities.*;
+import at.htlleonding.persistence.export.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -188,4 +189,45 @@ public class LibraryRepository {
     }
 
     //ToDo: Add missing queries for various entities
+
+    //-------------------------------------------------------
+    // Export methods
+    //-------------------------------------------------------
+
+    public WorksOfAuthors getMediaOfAuthors() {
+        //ToDo: Implement join (or view) of authors and their mediaitems for export
+        var result = new WorksOfAuthors();
+        var authorDTOs = new ArrayList<AuthorDTO>();
+
+        var authors = (List<Author>) getAll(Author.class);
+        for (var a : authors) {
+            var authorDTO = new AuthorDTO(a.getLastName(), a.getFirstName(), a.getDateOfBirth(), a.getDateOfDeath());
+
+            //Add works
+            var works = entityManager.createQuery("select mi from MediaItem mi where exists (select a from mi.authors a where a.id = :aut_id)", MediaItem.class)
+                    .setParameter("aut_id", a.getId())
+                    .getResultList();
+
+            for(var w : works) {
+                var authorWorkDTO = new AuthorWorkDTO(w.getTitle(), w.getGenre().getKeyword());
+
+                //Add publications of work
+                var mediaExemplars = entityManager.createQuery("select me from MediaExemplar me where me.mediaItem.id = :mi_id", MediaExemplar.class)
+                        .setParameter("mi_id", w.getId())
+                        .getResultList();
+
+                for(var me : mediaExemplars) {
+                    var publicationOfWorkDTO = new PublicationOfWorkDTO(me.getPublisher().getName(), me.getBuyDate(), me.getMediaType().getType().name());
+                    authorWorkDTO.getPublications().add(publicationOfWorkDTO);
+                }
+
+                authorDTO.getWorks().add(authorWorkDTO);
+            }
+
+            authorDTOs.add(authorDTO);
+        }
+
+        result.setAuthors(authorDTOs);
+        return result;
+    }
 }
